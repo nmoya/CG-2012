@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char* readUntil(FILE* arq, char c){
+static char* readUntil(FILE* arq, char c){
     int i=0;
     #define buffer_len 512
     static char buffer[buffer_len];
