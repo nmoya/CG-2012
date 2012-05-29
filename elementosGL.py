@@ -1,4 +1,4 @@
-
+﻿
 NUM_ELEMENTOS = 0
 
 
@@ -21,7 +21,7 @@ class Ponto ():
         self.y = y
         self.z = z
     def __repr__(self):
-        return "" + str(self.x) + ", " + str(self.y) + ", " + str(self.z)+ ""
+        return "" + str(self.x) + "; " + str(self.y) + "; " + str(self.z)+ ""
 
 class Cor ():
     def __init__(self, r, g, b):
@@ -29,11 +29,11 @@ class Cor ():
         self.g = g
         self.b = b
     def __repr__(self):
-        return "" + str(self.r) + ", " + str(self.g) + ", " + str(self.b)+ ""
+        return "" + str(self.r) + "; " + str(self.g) + "; " + str(self.b)+ ""
 
 
 class Elemento ():
-    def __init__(self, nome, lstPontos, cor, espessura, angulacao, tipo):
+    def __init__(self, nome, cor, espessura, tipo, angulacao, lstPontos):
         global NUM_ELEMENTOS
         self.cod = NUM_ELEMENTOS
         self.nome = nome
@@ -47,17 +47,31 @@ class Elemento ():
         saida = ""
         for ponto in self.lstPontos:
             saida += str(ponto) + ", "
-        return "" + str(self.cod)              \
-               + "; " + str(self.nome)           \
-               + "; " + saida                    \
-               + str(self.cor)                   \
-               + "; " + str(self.espessura)      \
-               + "; " + str(self.angulacao)      \
-               + "; " + tipo[self.tipo] + ""
+        return "" + str(self.cod)               \
+               + "; " + str(self.nome)          \
+               + "; " + str(self.cor)           \
+               + "; " + str(self.espessura)     \
+               + "; " + tipo[self.tipo]         \
+               + "; " + str(self.angulacao)     \
+               + "; " + saida + ""                   
+
        
 
 lst = []
-lst.append(Elemento("Linha", [Ponto(0, 0, 0), Ponto(3, 3, 0)], Cor(255, 0, 0), 1, Ponto(90, 0, 0), "xis"))
-lst.append(Elemento("Linha", [Ponto(5, 5, 0), Ponto(0, 0, 0)], Cor(255, 0, 0), 2, Ponto(0, 90, 0), "circulo"))
-lst.append(Elemento("Linha", [Ponto(5, 5, 0), Ponto(0, 0, 0)], Cor(255, 0, 0), 3, Ponto(0, 0, 90), "circulo"))
+lst.append(Elemento("L", Cor(255,0,0), 0, "xis", Ponto(90, 0, 0), [Ponto(0, 0, 0), Ponto(3, 3, 0)]))
+print len(lst)
 salva (lst)
+
+
+
+'''
+'P':  //Ponto
+'L':  //Linha
+'C':  //Circulo
+'E':  //Esfera
+'T':  //Triangulo
+'R':  //Retangulo
+'c':  //[c]one
+'t':  //[t]órus
+
+'''
