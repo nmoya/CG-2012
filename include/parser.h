@@ -10,15 +10,19 @@ static char* readUntil(FILE* arq, char c){
     int i=0;
     #define buffer_len 512
     static char buffer[buffer_len];
-    for(i=0;i < buffer_len;i++){
+    for(i=0;i < buffer_len;){
         buffer[i] = fgetc(arq);
-        if(i == 0 && buffer[i] == c){
-            buffer[i]=' ';
+        if(i == 0 && buffer[i] == c){ //ignora se o primeiro caracter for o caracter de parada
+            continue;
+        }
+        if(buffer[i] == '#'){ //Comentario
+            while((buffer[i] = fgetc(arq)) != '\n');
         }
         if(buffer[i] == c || feof(arq)){
             buffer[i]=0;
             break;
         }
+        i++;
     }
     //printf("buffer = '%s'\n", buffer);
     return buffer;

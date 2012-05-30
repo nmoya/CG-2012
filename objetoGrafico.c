@@ -5,6 +5,12 @@
 #include <gl/glut.h>
 #include <gl/glu.h>			//Util library
 
+//Funcoes ajudantes que imprimem o tipo e o id do objeto junto com uma mensagem de erro
+void printErro(objetoGrafico* og, char* erro)  { printf("ERRO(id=%d, tipo=%c): %s\n", og->id, og->tipo, erro); }
+void printAviso(objetoGrafico* og, char* erro){ printf("AVISO(id=%d, tipo=%c): %s\n", og->id, og->tipo, erro); }
+
+
+//Funcoes de desenho
 void desenhaPonto(objetoGrafico* og){
     printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);
 }
@@ -26,6 +32,7 @@ void desenhaRetangulo(objetoGrafico* og){
 }
 
 void desenhaTriangulo(objetoGrafico* og){
+     printAviso(og, "Desconsiderando translacao, preenchimento e tipografia (nao implementado)"); //XXX aprender a usar a pilha de matrizes
      float* cor = getCor(og);
      float* verts[3];
      int i;

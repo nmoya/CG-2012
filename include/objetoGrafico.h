@@ -38,12 +38,12 @@ void desenhaTorus(objetoGrafico* og);
 
 static int numParametros(char tipo){
     switch(tipo){ //XXX preencher numero de parametros correto
-        case TPONTO:     return 4; //4 = 3cor + espessura?
+        case TPONTO:     return 3+1+3; //3cor + 1espessura + 1xyz?
 		case TLINHA:     return -1; 
 		case TCIRCULO:   return -1; 
 		case TESFERA:    return -1; 
 		case TRETANGULO: return -1;
-		case TTRIANGULO: return 3+1+1+3+3+3*3; //3cor + 1epessura + 1tipografia + 3orientacao + 3translacao + 3xyz*3
+		case TTRIANGULO: return 3+1+1+3+3+3*3; //3cor + 1epessura + 1tipografia + 3orientacao + 3translacao + 3xyz
 		case TCUBO:      return -1; 
 		case TCONE:      return -1; 
 		case TTORUS:     return -1; 

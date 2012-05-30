@@ -57,10 +57,12 @@ int main(void)
     FILE* arqEntrada = fopen("arquivoEntrada.txt","r");
     if(!arqEntrada){
         printf("ERRO: Nao foi possivel abrir o arquivo de entrada");
+        getc(stdin); //Pausa para ver o erro antes de sair
         return 1;
     }
     objetosGraficos = carregaObjetosGraficos(arqEntrada, &objetosGraficos_len);
     if(!objetosGraficos){
+        getc(stdin); //Pausa para ver o erro antes de sair
         return 1;
     }
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
