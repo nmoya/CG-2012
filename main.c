@@ -18,7 +18,7 @@ int main(){
         }
         printf("\n");
     }
-    
+    getc(stdin);
     return 0;
     
 }
