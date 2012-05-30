@@ -32,7 +32,7 @@ void desenhaRetangulo(objetoGrafico* og){
 }
 
 void desenhaTriangulo(objetoGrafico* og){
-     printAviso(og, "Desconsiderando translacao, preenchimento e tipografia (nao implementado)"); //XXX aprender a usar a pilha de matrizes
+     printAviso(og, "Desconsiderando translacao, orientacao, preenchimento e tipografia (nao implementado)"); //XXX aprender a usar a pilha de matrizes
      float* cor = getCor(og);
      float* verts[3];
      int i;
