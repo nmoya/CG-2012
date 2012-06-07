@@ -1,15 +1,15 @@
-6 #numero de objetos
+7 #numero de objetos
 
 1;P; 1;1;1; 1; 0;0;0;
 
-2;T; #id;tipo
+2;T; #Um triangulo
 	1;0;0;    #r;g;b;
 	0; 0;     #espessura; tipografia;
 	45;1;0;0; #orientacao[4];
 	-20;10;10;#translacao[3];
 	-5;-5;0; 5;-5;0; 0;5;0; #vertices
 
-3;T; #id;tipo
+3;T; #Um triangulo
 	0;1;0;    #r;g;b;
 	1; 65535; #espessura; tipografia;
 	45;0;1;0; #orientacao[4];
@@ -17,7 +17,7 @@
 	-5;-5;0; 5;-5;0; 0;5;0; #vertices
 	#10;10;10; 20;10;10; 15;20;10; #vertices
 	
-4;T; #id;tipo
+4;T; #Um triangulo
 	1;1;0;    #r;g;b;
 	1; 61680; #espessura; tipografia;
 	45;0;0;1; #orientacao[4];
@@ -25,17 +25,25 @@
 	-5;-5;0; 5;-5;0; 0;5;0; #vertices
 	#10;10;10; 20;10;10; 15;20;10; #vertices
 	
-5;L; #id;tipo
+5;L; #Uma linha
 	1;1;1;    #r;g;b;
 	1; 61680; #espessura; tipografia;
 	0;1;0;0;  #orientacao[4];
 	0;0;0;    #translacao[3];
 	-100;0;0; 100;0;0; #vertices
 	
-6;L; #id;tipo
+6;L; #Uma linha
 	1;1;1;    #r;g;b;
 	1; 61680; #espessura; tipografia;
 	0;1;0;0;  #orientacao[4];
 	0;0;0;    #translacao[3];
 	0;-100;0; 0;100;0; #vertices
-	
+
+7;O; #Um cone
+	0.8;0.4;0;    #r;g;b;
+	0; 0;         #espessura; tipografia;
+	45;0.5;0.5;0; #orientacao[4];
+	-20;-10;0;    #translacao[3];
+	0.8;0.8;0;    #cor alternativa
+	10; 50;       #raio; altura
+	6;            #reparticoes

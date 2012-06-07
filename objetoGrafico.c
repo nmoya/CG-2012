@@ -100,7 +100,70 @@ void desenhaCubo(objetoGrafico* og){
 }
 
 void desenhaCone(objetoGrafico* og){
-    printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);
+    printAviso(og, "Espessura e tipografia ainda nao implementadas");
+    glPushMatrix(); //Salva a matriz
+    aplicaCorTransformacoesPadrao(og);
+     
+    float* cor         = getCor(og);
+    float* corAlt      = &getValoresExtra(og)[0];
+    float  raio        = getValoresExtra(og)[3];
+    float  altura      = getValoresExtra(og)[4];
+    float  reparticoes = getValoresExtra(og)[5];
+    float angle,x,y;
+    int iPivot=0;
+    
+    const float pi=3.1415f;
+    
+    /* Abaixo tirado do exemplo "GlutTEST - 07 - CONE", corrigido um bug em que,
+     se o numero de reparticoes fosse muito pequeno, ocasionaria na falta de 
+     uma repartição */
+    
+    // Desenhando a base do cone
+    glBegin(GL_TRIANGLE_FAN);
+    // Centro do FAN é a origem (0,0,0)
+    glVertex2f(0.0f, 0.0f);
+    
+    angle = -(pi/reparticoes);
+    do{
+        angle = min(angle+(pi/reparticoes),(2.0f*pi));
+    	// Calculate x and y position of the next vertex
+    	x = raio*sin(angle);
+    	y = raio*cos(angle);
+    	// Alternate color between red and green
+    	if((iPivot %2) == 0) glColor3f(cor[0], cor[1], cor[2]);
+    	else                 glColor3f(corAlt[0],corAlt[1], corAlt[2]);
+    	// Increment pivot to change color next time
+    	iPivot++;
+    	// Specify the next vertex for the triangle fan
+    	glVertex2f(x, y);
+    }while(angle < (2.0f*pi));
+    
+    glEnd();
+    
+    // Desenhando a lateral do cone
+    glBegin(GL_TRIANGLE_FAN);
+    // Pinnacle of cone is shared vertex for fan, moved up Z axis
+    // to produce a cone instead of a circle
+    glVertex3f(0.0f, 0.0f, altura);
+    // Loop around in a circle and specify even points along the circle
+    // as the vertices of the triangle fan
+    angle = -(pi/reparticoes);
+    do{
+        angle = min(angle+(pi/reparticoes),(2.0f*pi));
+    	// Calculate x and y position of the next vertex
+    	x = raio*sin(angle);
+    	y = raio*cos(angle);
+        // Alternate color between red and green
+    	if((iPivot %2) == 0) glColor3f(cor[0], cor[1], cor[2]);
+    	else                 glColor3f(corAlt[0],corAlt[1], corAlt[2]);
+    	// Increment pivot to change color next time
+    	iPivot++;
+    	// Specify the next vertex for the triangle fan
+    	glVertex2f(x, y);
+    }while(angle < (2.0f*pi));
+    glEnd();
+
+    glPopMatrix(); //Deixa a matriz como ela estava antes     
 }
 
 void desenhaTorus(objetoGrafico* og){

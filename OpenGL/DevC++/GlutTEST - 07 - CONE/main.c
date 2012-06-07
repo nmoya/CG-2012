@@ -11,7 +11,7 @@ void cone(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 // ============================================================================
-//	glTranslatef(50.0f, 50.0f, 0.0f);
+	glTranslatef(50.0f, 50.0f, 0.0f);
 //	glRotatef(45, 1.0f, 0.0f, 0.0f);
 //	glRotatef(45, 0.0f, 1.0f, 0.0f);
 	

@@ -52,8 +52,8 @@ void Inicializa (void)
 	glDisable(GL_CULL_FACE);
 
 // Habilitando o teste de profundidade 
-//	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
+//	glDisable(GL_DEPTH_TEST);
 
 // Desenhando a parte posterior somente como linha
 //	glPolygonMode(GL_BACK,GL_LINE);
