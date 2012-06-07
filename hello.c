@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#define N 8
+
 void printHelloN(int n){
 	int i;
 	for(i=0;i<n;i++){
@@ -28,8 +30,10 @@ void printES()
 }
 
 int main(){
+	int i=0;
 	printf("Hello world!\n");
-	
 	printES();
 	printPT();
+	printMensagemN("Hello world troll!\n",N);
+	
 }
