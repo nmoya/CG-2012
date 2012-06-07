@@ -13,9 +13,7 @@ int objetosGraficos_len;
 
 void Desenha(void)
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_CULL_FACE);
 	int i;
 	for(i=0; i<objetosGraficos_len; i++){
         desenhaObjetoGrafico(&objetosGraficos[i]);
@@ -28,11 +26,28 @@ void Desenha(void)
 // Inicializa parâmetros de rendering
 void Inicializa (void)
 {   
-    glClearColor(1.0,1.0,1.0,0.0);       // set white background color
-    glColor3f(0.0f, 0.0f, 0.0f);          // set the drawing color 
- 	glPointSize(4.0);		       // a ‘dot’ is 4 by 4 pixels
-	glMatrixMode(GL_PROJECTION); 
-	glLoadIdentity();
+//    glClearColor(1.0,1.0,1.0,0.0);       // set white background color
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // set black background color
+//	glMatrixMode(GL_PROJECTION); 
+//	glLoadIdentity();
+
+// ========================== testes de modo de desenho ======================
+//	Modo de definição de cor
+	glShadeModel(GL_FLAT);
+//	glShadeModel(GL_SMOOTH);	
+
+// Turn culling 
+//	glEnable(GL_CULL_FACE);
+	glDisable(GL_CULL_FACE);
+
+// Habilitando o teste de profundidade 
+//	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_DEPTH_TEST);
+
+// Desenhando a parte posterior somente como linha
+//	glPolygonMode(GL_BACK,GL_LINE);
+	glPolygonMode(GL_BACK,GL_FILL);
+
 }
 
 void reshape(int w, int h)
@@ -66,7 +81,7 @@ int main(void)
         return 1;
     }
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	glutCreateWindow("OpenGL+GLUT");
+	glutCreateWindow("Visualizador");
 	glutDisplayFunc(Desenha);
 	Inicializa();
     glutReshapeFunc(reshape);
