@@ -15,6 +15,11 @@ void printPT()
 {
 	printf("Ola mundo\n");
 }
+void printES()
+{
+	printf("Holla mundo! Viva la Revolucion!\n");
+}
+
 int main(){
 	printf("Hello world!\n");
 }
