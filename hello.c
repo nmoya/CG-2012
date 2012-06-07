@@ -8,6 +8,13 @@ void printHelloN(int n){
 	printf("\n");
 }
 
+void printMensagemN(char* msg, int n){
+	int i;
+	for(i=0;i<n;i++){
+		printf("%s",msg);
+	}
+}
+
 void printHello2(){
 	printf("Hello world... 2!\n");
 }
