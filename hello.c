@@ -29,4 +29,7 @@ void printES()
 
 int main(){
 	printf("Hello world!\n");
+	
+	printES();
+	printPT();
 }
