@@ -3,7 +3,10 @@
 void printHello2(){
 	printf("Hello world... 2!\n");
 }
-
+void printPT()
+{
+	printf("Ola mundo\n");
+}
 int main(){
 	printf("Hello world!\n");
 }
