@@ -1,0 +1,52 @@
+
+Como usar o github:
+Comandos do PowerShell:
+
+O que está entre colchetes, depois do diretorio com o codigo local, é o nome do branch que você está.
+
+//Atualiza o seu repositório local.
+git pull
+
+//Cria um branch
+git checkout -b <nome>
+
+Automaticamente, ele vai mudar para o branch que você criou.
+Crie a função no arquivo que você quiser.
+Salve o arquivo.
+
+//Adiciona o arquivo que voce mexeu na lista de arquivos que devem ser sincronizados.
+git add <nomedoarquivo>
+
+//Salva no 'branch' atual
+git commit -m "Mensagem clara de sua alteração"
+
+//Muda de branch.
+git checkout master
+
+Aqui, se o master foi alterado por outra pessoa, você vai precisar dar outro PULL. Para pegar a ultima versão antes de fazer o merge com as suas alterações.
+
+//Merge do branch atual com o branch de 'destino'.
+git merge <nomedobranch>
+
+//Até agora, todas as alterações foram locais. É preciso enviar para o servidor
+git push origin master
+
+//Se tudo der certo, delete o seu branch.
+git branch -d <nomedobranch>
+
+Pronto!
+
+
+Sequencia de comandos:
+git pull
+git checkout -b <nome>
+
+/*ALTERAÇÕES*/
+
+git add *		OU 		git add <nomedoarquivoalterado>
+git commit -m "Mensagem explicando o commit"
+git checkout master
+git merge <nome>			//Se der erro. 'git pull' para pegar as ultimas alteracoes antes do merge.
+git push origin master
+git branch -d <nome>
+
