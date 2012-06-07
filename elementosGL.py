@@ -23,6 +23,15 @@ class Ponto ():
     def __repr__(self):
         return "" + str(self.x) + "; " + str(self.y) + "; " + str(self.z)+ ""
 
+class Orientacao ():
+    def __init__(self, x, y, z, w):
+        self.x = x
+        self.y = y
+        self.z = z
+        self.w = w
+    def __repr__(self):
+        return "" + str(self.x) + "; " + str(self.y) + "; " + str(self.z)+ "; " + str(self.w)+ ""
+
 class Cor ():
     def __init__(self, r, g, b):
         self.r = r
@@ -58,7 +67,7 @@ class Elemento ():
        
 
 lst = []
-lst.append(Elemento("L", Cor(255,0,0), 0, "xis", Ponto(90, 0, 0), [Ponto(0, 0, 0), Ponto(3, 3, 0)]))
+lst.append(Elemento("L", Cor(255,0,0), 0, "xis", Orientacao(90, 0, 0, 90), [Ponto(0, 0, 0), Ponto(3, 3, 0)]))
 print len(lst)
 salva (lst)
 
