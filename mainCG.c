@@ -6,13 +6,19 @@
 #include <gl/glut.h>
 #include <gl/glu.h>			//Util library
 
-GLfloat nRange = 50.0f;
+//#define DEBUG_SPIN_SPIN //SPIN, SPIN! Se definido, saia do programa com um CTRL+C na janela de linha de comando
+
+GLfloat nRange = 50.0f;  //XXX acredito que o professor tenha dito que essa variavel tenha que ser ajustada automaticamente (para caber toda a cena?)
 
 objetoGrafico* objetosGraficos;
 int objetosGraficos_len;
 
 void Desenha(void)
 {
+    #ifdef DEBUG_SPIN_SPIN
+    while(1){
+    #endif
+    
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	int i;
 	for(i=0; i<objetosGraficos_len; i++){
@@ -21,6 +27,11 @@ void Desenha(void)
 	glFlush();
 	glutSwapBuffers();
 	Sleep(30);
+    
+    #ifdef DEBUG_SPIN_SPIN
+	glRotatef(1,0,1,0);
+    }
+    #endif
 }
 
 // Inicializa parâmetros de rendering
@@ -48,6 +59,8 @@ void Inicializa (void)
 //	glPolygonMode(GL_BACK,GL_LINE);
 	glPolygonMode(GL_BACK,GL_FILL);
 
+// Tipografia de linha
+   glEnable(GL_LINE_STIPPLE);
 }
 
 void reshape(int w, int h)
@@ -86,5 +99,7 @@ int main(void)
 	Inicializa();
     glutReshapeFunc(reshape);
 	glutMainLoop();
+	
+	free(objetosGraficos);
 	return 0;
 }

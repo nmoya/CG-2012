@@ -14,20 +14,20 @@ void DesenhaEixos(void)
 	glLineStipple(factor, pattern);
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	glBegin(GL_LINE_LOOP);
-		glVertex3f(nRange-1, nRange-1, 0);
-		glVertex3f(nRange-1, -nRange+1, 0);
-		glVertex3f(-nRange+1, -nRange+1, 0);
-		glVertex3f(-nRange+1, nRange-1, 0);
-	glEnd();
+	//glBegin(GL_LINE_LOOP);
+//		glVertex3f(nRange-1, nRange-1, 0);
+//		glVertex3f(nRange-1, -nRange+1, 0);
+//		glVertex3f(-nRange+1, -nRange+1, 0);
+//		glVertex3f(-nRange+1, nRange-1, 0);
+//	glEnd();
 
 	glBegin(GL_LINES);
 		glVertex3f(0, nRange,0);
 		glVertex3f(0, -nRange,0);
-		glVertex3f(-nRange,0,0);
+        glVertex3f(-nRange,0,0);
 		glVertex3f(nRange,0,0);
-		glVertex3f(0,0,-nRange);
-		glVertex3f(0,0,nRange);
+//		glVertex3f(0,0,-nRange);
+//		glVertex3f(0,0,nRange);
 	glEnd();
 	glDisable(GL_LINE_STIPPLE);
 	}

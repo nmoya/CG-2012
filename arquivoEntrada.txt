@@ -1,4 +1,41 @@
-3 #numero de objetos
+6 #numero de objetos
+
 1;P; 1;1;1; 1; 0;0;0;
-2;T; 1;0;0; 0; 0; 0;0;0; 0;0;0; 10;10;10; 20;10;10; 15;20;10; #id;tipo r;g;b; espessura; tipografia; orientacao[3]; translacao[3]; vertices...
-3;T; 0;1;0; 0; 0; 0;0;0; 0;0;0; 0;0;0; 10;0;0; 5;10;00;
+
+2;T; #id;tipo
+	1;0;0;    #r;g;b;
+	0; 0;     #espessura; tipografia;
+	45;1;0;0; #orientacao[4];
+	-20;10;10;#translacao[3];
+	-5;-5;0; 5;-5;0; 0;5;0; #vertices
+
+3;T; #id;tipo
+	0;1;0;    #r;g;b;
+	1; 65535; #espessura; tipografia;
+	45;0;1;0; #orientacao[4];
+	0;0;0;    #translacao[3];
+	-5;-5;0; 5;-5;0; 0;5;0; #vertices
+	#10;10;10; 20;10;10; 15;20;10; #vertices
+	
+4;T; #id;tipo
+	1;1;0;    #r;g;b;
+	1; 61680; #espessura; tipografia;
+	45;0;0;1; #orientacao[4];
+	20;-10;-10;#translacao[3];
+	-5;-5;0; 5;-5;0; 0;5;0; #vertices
+	#10;10;10; 20;10;10; 15;20;10; #vertices
+	
+5;L; #id;tipo
+	1;1;1;    #r;g;b;
+	1; 61680; #espessura; tipografia;
+	0;1;0;0;  #orientacao[4];
+	0;0;0;    #translacao[3];
+	-100;0;0; 100;0;0; #vertices
+	
+6;L; #id;tipo
+	1;1;1;    #r;g;b;
+	1; 61680; #espessura; tipografia;
+	0;1;0;0;  #orientacao[4];
+	0;0;0;    #translacao[3];
+	0;-100;0; 0;100;0; #vertices
+	
