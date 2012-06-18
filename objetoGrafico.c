@@ -96,11 +96,103 @@ void desenhaTriangulo(objetoGrafico* og){
 }
 
 void desenhaCubo(objetoGrafico* og){
-    printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);
+    //printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);
+    printAviso(og, "Espessura e tipografia ainda nao implementadas");
+    glPushMatrix(); //Salva a matriz
+    aplicaCorTransformacoesPadrao(og);
+    
+    float* cor         = getCor(og);
+    float aresta       = getValoresExtra(og)[0];
+    float espessura    = getEspessura(og);
+    float tipografia   = getTipografia(og);
+       
+    /* Fotmato do cubo:
+           P6
+        P1-P2-P3-P4
+           P5
+    */
+    glColor3f(cor[0],cor[1],cor[2]);
+	     
+	     
+   glBegin(GL_TRIANGLE_FAN);     
+        // P1
+        //glColor3f(1,0,0); // vermelho
+        
+        glVertex3f(aresta/2, -aresta/2, aresta/2); //esquerda, baixo, fundo
+        glVertex3f(aresta/2, -aresta/2, -aresta/2); //esquerda, baixo, frente
+        glVertex3f(-aresta/2, -aresta/2, -aresta/2); //direita, baixo, frente
+        
+        glVertex3f(aresta/2, -aresta/2, aresta/2); //esquerda, baixo, fundo
+        glVertex3f(-aresta/2, -aresta/2, -aresta/2); //direita, baixo, frente
+        glVertex3f(-aresta/2, -aresta/2, aresta/2); //direita, baixo, funco
+   glEnd();     
+   glBegin(GL_TRIANGLE_FAN);
+		// P2
+		//glColor3f(0,1,0); // verde
+		
+		glVertex3f(aresta/2, -aresta/2, aresta/2); //esquerda, baixo, fundo
+		glVertex3f(-aresta/2, -aresta/2, aresta/2); //direita, baixo, funco
+		glVertex3f(-aresta/2, aresta/2, aresta/2); //direita, cima, funco
+				
+		glVertex3f(aresta/2, aresta/2, aresta/2); //esquerda, cima, funco
+		glVertex3f(aresta/2, -aresta/2, aresta/2); //esquerda, baixo, fundo
+		glVertex3f(-aresta/2, aresta/2, aresta/2); //direita, cima, funco
+	glEnd();    
+    glBegin(GL_TRIANGLE_FAN);
+		// P3
+		//glColor3f(0,0,1); // azul
+		
+	    glVertex3f(-aresta/2, -aresta/2, aresta/2); //direita, baixo, fundo
+	    glVertex3f(-aresta/2, -aresta/2, -aresta/2); //direita, baixo, frente
+	    glVertex3f(-aresta/2, aresta/2, -aresta/2); //direita, cima, frente
+	    
+	    glVertex3f(-aresta/2, -aresta/2, aresta/2); //direita, baixo, fundo
+	    glVertex3f(-aresta/2, aresta/2, -aresta/2); //direita, cima, frente
+	    glVertex3f(-aresta/2, aresta/2, aresta/2); //direita, cima, fundo
+    glEnd();
+    glBegin(GL_TRIANGLE_FAN);     
+        // P4
+        //glColor3f(1,1,1); // branco
+        
+        glVertex3f(aresta/2, aresta/2, aresta/2); //esquerda, cima, fundo
+        glVertex3f(aresta/2, aresta/2, -aresta/2); //esquerda, cima, frente
+        glVertex3f(-aresta/2, aresta/2, -aresta/2); //direita, cima, frente
+        
+        glVertex3f(aresta/2, aresta/2, aresta/2); //esquerda, cima, fundo
+        glVertex3f(-aresta/2, aresta/2, -aresta/2); //direita, cima, frente
+        glVertex3f(-aresta/2, aresta/2, aresta/2); //direita, cima, funco
+   glEnd(); 
+   glBegin(GL_TRIANGLE_FAN);     
+	    // P5
+	    //glColor3f(1,1,0); // amarelo
+	    
+	    glVertex3f(aresta/2, -aresta/2, aresta/2); //esquerda, baixo, fundo
+	    glVertex3f(aresta/2, -aresta/2, -aresta/2); //esquerda, baixo, frente
+	    glVertex3f(aresta/2, aresta/2, -aresta/2); //esquerda, cima, frente
+	    
+	    glVertex3f(aresta/2, -aresta/2, aresta/2); //esquerda, baixo, fundo
+	    glVertex3f(aresta/2, aresta/2, -aresta/2); //esquerda, cima, frente
+	    glVertex3f(aresta/2, aresta/2, aresta/2); //esquerda, cima, fundo
+   glEnd();    
+   glBegin(GL_TRIANGLE_FAN);  
+        // P6
+        //glColor3f(0,1,1); // ciano
+        
+		glVertex3f(aresta/2, -aresta/2, -aresta/2); //esquerda, baixo, frente
+		glVertex3f(-aresta/2, -aresta/2, -aresta/2); //direita, baixo, frente
+		glVertex3f(-aresta/2, aresta/2, -aresta/2); //direita, cima, frente
+				
+		glVertex3f(aresta/2, aresta/2, -aresta/2); //esquerda, cima, frente
+		glVertex3f(aresta/2, -aresta/2, -aresta/2); //esquerda, baixo, frente
+		glVertex3f(-aresta/2, aresta/2, -aresta/2); //direita, cima, frente
+   glEnd();  
+
+   glPopMatrix(); //Deixa a matriz como ela estava antes  
 }
 
 void desenhaCone(objetoGrafico* og){
     printAviso(og, "Espessura e tipografia ainda nao implementadas");
+
     glPushMatrix(); //Salva a matriz
     aplicaCorTransformacoesPadrao(og);
      

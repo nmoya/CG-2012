@@ -1,4 +1,4 @@
-7 #numero de objetos
+8 #numero de objetos
 
 1;P; 1;1;1; 1; 0;0;0;
 
@@ -46,4 +46,11 @@
 	-20;-10;0;    #translacao[3];
 	0.8;0.8;0;    #cor alternativa
 	10; 50;       #raio; altura
-	12;            #reparticoes
+	6;            #reparticoes
+
+8;Q; #Um cubo
+	0.8;0.4;0;    #r;g;b;
+	1; 0;         #espessura; tipografia;
+	45;1;0;0;     #orientacao[4];
+	15;10;10;     #translacao[3];
+	20;           #aresta
