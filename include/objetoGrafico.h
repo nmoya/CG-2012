@@ -64,7 +64,7 @@ static int numParametros(char tipo){
 		case TESFERA:    return -1; 
 		case TRETANGULO: return -1;
 		case TTRIANGULO: return NARGSCOMUNS+3*NPONTO; //3cor + 1epessura + 1tipografia + 3orientacao + 3translacao + 3xyz
-		case TCUBO:      return -1; 
+		case TCUBO:      return NARGSCOMUNS+1;  //3cor + 1epessura + 1tipografia + 3orientacao + 3translacao + aresta
 		case TCONE:      return NARGSCOMUNS+1*NCOR+1+1+1;  //+ corAlternativa + raio + altura + reparticoes
 		case TTORUS:     return -1; 
         default: return -1;
