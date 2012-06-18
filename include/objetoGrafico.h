@@ -44,7 +44,7 @@ static float* getOrientacao(objetoGrafico* og)  { return &og->valores[IORIENTACA
 static float* getTranslacao(objetoGrafico* og)  { return &og->valores[ITRANSLACAO]; } 
 static float* getValoresExtra(objetoGrafico* og){ return &og->valores[IRESTO];}
 
-static float  ehSolido(objetoGrafico* og)       { return  og->valores[IESPESSURA] == 0; }
+static int    ehSolido(objetoGrafico* og)       { return  og->valores[IESPESSURA] == 0; }
 
 void desenhaPonto(objetoGrafico* og);
 void desenhaLinha(objetoGrafico* og);

@@ -46,4 +46,4 @@
 	-20;-10;0;    #translacao[3];
 	0.8;0.8;0;    #cor alternativa
 	10; 50;       #raio; altura
-	6;            #reparticoes
+	12;            #reparticoes
