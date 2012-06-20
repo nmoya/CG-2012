@@ -103,7 +103,7 @@ void desenhaCone(objetoGrafico* og){
     printAviso(og, "Espessura e tipografia ainda nao implementadas");
     glPushMatrix(); //Salva a matriz
     aplicaCorTransformacoesPadrao(og);
-     
+    
     float* cor         = getCor(og);
     float* corAlt      = &getValoresExtra(og)[0];
     float  raio        = getValoresExtra(og)[3];
