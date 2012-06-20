@@ -1,14 +1,16 @@
-8 #numero de objetos
+10 #numero de objetos
 
-1;P; 1;1;1; 1; 0;0;0;
-
+1;P;
+	0.5;1;1; #r; g; b;
+	25;11;13; #translacao
+	
 2;T; #Um triangulo
 	1;0;0;    #r;g;b;
 	0; 0;     #espessura; tipografia;
 	45;1;0;0; #orientacao[4];
 	-20;10;10;#translacao[3];
 	-5;-5;0; 5;-5;0; 0;5;0; #vertices
-
+	
 3;T; #Um triangulo
 	0;1;0;    #r;g;b;
 	1; 65535; #espessura; tipografia;
@@ -38,19 +40,37 @@
 	0;1;0;0;  #orientacao[4];
 	0;0;0;    #translacao[3];
 	0;-100;0; 0;100;0; #vertices
-
-7;O; #Um cone
+	
+7;K; #Um Pirulito
+	0.1;0.5;1;    #r;g;b
+	3;61680;      #espessura; tipografia;
+	1;0;1;0;      #orientacao[4];
+	10;0;25;      #translacao[3];
+	5;10;        #raio;reparticoes; da Esfera
+	0.2;0;0;     #r;g;b alternativa;
+	5;50;        #raio;altura; do Cilindro
+	100;         #reparticoes do Cilindro
+	
+8;O; #Um cone
 	0.8;0.4;0;    #r;g;b;
-	0; 0;         #espessura; tipografia;
+	1; 61680; #espessura; tipografia;
 	45;0.5;0.5;0; #orientacao[4];
 	-20;-10;0;    #translacao[3];
 	0.8;0.8;0;    #cor alternativa
 	10; 50;       #raio; altura
 	6;            #reparticoes
 
-8;Q; #Um cubo
+9;U; #Um cubo
 	0.8;0.4;0;    #r;g;b;
-	1; 0;         #espessura; tipografia;
+	1; 61680;     #espessura; tipografia;
 	45;1;0;0;     #orientacao[4];
 	15;10;10;     #translacao[3];
 	20;           #aresta
+
+10;Q; #Um retangulo
+	0.8;0.4;0;    #r;g;b;
+	0; 61680;     #espessura; tipografia;
+	0;1;0;0;      #orientacao[4];
+	-15;10;-10;   #translacao[3];
+	20; 25;       #lado; altura;
+	

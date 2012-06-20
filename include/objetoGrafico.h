@@ -9,11 +9,13 @@
 #define TLINHA     'L'
 #define TCIRCULO   'C'
 #define TESFERA    'E'
-#define TRETANGULO 'R'
+#define TQUADRADO 'Q'
 #define TTRIANGULO 'T'
-#define TCUBO      'Q'
+#define TCUBO      'U'
 #define TCONE      'O'
-#define TTORUS     'U'
+#define TTORUS     'S'
+#define TCILINDRO  'I'
+#define TKOMPOSTO  'K'
 
 // Numero de argumentos padrao
 #define NCOR        3
@@ -44,7 +46,7 @@ static float* getOrientacao(objetoGrafico* og)  { return &og->valores[IORIENTACA
 static float* getTranslacao(objetoGrafico* og)  { return &og->valores[ITRANSLACAO]; } 
 static float* getValoresExtra(objetoGrafico* og){ return &og->valores[IRESTO];}
 
-static int    ehSolido(objetoGrafico* og)       { return  og->valores[IESPESSURA] == 0; }
+static float  ehSolido(objetoGrafico* og)       { return  og->valores[IESPESSURA] == 0; }
 
 void desenhaPonto(objetoGrafico* og);
 void desenhaLinha(objetoGrafico* og);
@@ -55,18 +57,23 @@ void desenhaTriangulo(objetoGrafico* og);
 void desenhaCubo(objetoGrafico* og);
 void desenhaCone(objetoGrafico* og);
 void desenhaTorus(objetoGrafico* og);
+void desenhaCilindro(objetoGrafico* og);
+void desenhaKomposto(objetoGrafico* og);
 
 static int numParametros(char tipo){
     switch(tipo){ //XXX preencher numero de parametros correto
-        case TPONTO:     return NCOR+NESPESSURA+1*NPONTO; //3cor + 1espessura + 1xyz?
-		case TLINHA:     return NARGSCOMUNS+2*NPONTO; 
-		case TCIRCULO:   return -1; 
-		case TESFERA:    return -1; 
-		case TRETANGULO: return -1;
-		case TTRIANGULO: return NARGSCOMUNS+3*NPONTO; //3cor + 1epessura + 1tipografia + 3orientacao + 3translacao + 3xyz
-		case TCUBO:      return NARGSCOMUNS+1;  //3cor + 1epessura + 1tipografia + 3orientacao + 3translacao + aresta
-		case TCONE:      return NARGSCOMUNS+1*NCOR+1+1+1;  //+ corAlternativa + raio + altura + reparticoes
-		case TTORUS:     return -1; 
+        case TPONTO:     return NCOR+1*NPONTO; //3cor + 1espessura + 1xyz?
+		case TLINHA:     return NARGSCOMUNS+2*NPONTO;    // OKA
+		case TCIRCULO:   return NARGSCOMUNS+1*NCOR+1+1;  //+ corAlternativa + raio + reparticoes INCOMPLETO
+		case TESFERA:    return NARGSCOMUNS+1+1;  //raio + reparticoes // OKA
+		case TQUADRADO:  return NARGSCOMUNS+1+1; //corAlternativa + largura + altura 
+		case TTRIANGULO: return NARGSCOMUNS+3*NPONTO; //3cor + 1epessura + 1tipografia + 3orientacao + 3translacao + 3xyz // OKA
+		case TCUBO:      return NARGSCOMUNS+1; //INCOMPLETO
+		case TCONE:      return NARGSCOMUNS+1*NCOR+1+1+1;  //+ corAlternativa + raio + altura + reparticoes // INCOMPLETO
+		case TTORUS:     return NARGSCOMUNS+1+1+1+1;  //raioInterno + raioExterno + reparticoes + aneis // OKA
+		case TCILINDRO:  return NARGSCOMUNS+1*NCOR+1+1+1;  //+ corAlternativa + raio + altura + reparticoes INCOMPLETO
+		case TKOMPOSTO:  return NARGSCOMUNS+1+1 +  /* Esfera do pirulito =)*/  
+                         1*NCOR+1+1+1; // Cilindro do pirulito =)
         default: return -1;
     }
 }
@@ -77,11 +84,13 @@ static void desenhaObjetoGrafico(objetoGrafico* og){
 		case TLINHA:     return desenhaLinha(og); 
 		case TCIRCULO:   return desenhaCirculo(og); 
 		case TESFERA:    return desenhaEsfera(og); 
-		case TRETANGULO: return desenhaRetangulo(og); 
+		case TQUADRADO:  return desenhaRetangulo(og); 
 		case TTRIANGULO: return desenhaTriangulo(og);
 		case TCUBO:      return desenhaCubo(og); 
 		case TCONE:      return desenhaCone(og); 
 		case TTORUS:     return desenhaTorus(og); 
+		case TCILINDRO:  return desenhaCilindro(og);
+		case TKOMPOSTO:   return desenhaKomposto(og);
     }
     printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);
 }

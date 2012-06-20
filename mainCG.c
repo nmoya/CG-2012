@@ -6,7 +6,7 @@
 #include <gl/glut.h>
 #include <gl/glu.h>			//Util library
 
-//#define DEBUG_SPIN_SPIN //SPIN, SPIN! Se definido, saia do programa com um CTRL+C na janela de linha de comando
+#define DEBUG_SPIN_SPIN //SPIN, SPIN! Se definido, saia do programa com um CTRL+C na janela de linha de comando
 
 GLfloat nRange = 50.0f;  //XXX acredito que o professor tenha dito que essa variavel tenha que ser ajustada automaticamente (para caber toda a cena?)
 
