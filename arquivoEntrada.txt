@@ -1,4 +1,4 @@
-13 #numero de objetos
+15 #numero de objetos
 
 0;M; #Configuracoes de iluminacao
     0.2;0.2;0.2;1.0; #cor da luz ambiente
@@ -66,15 +66,6 @@
 #	5;50;        #raio;altura; do Cilindro
 #	100;         #reparticoes do Cilindro
 	
-8;O; #Um cone
-	0.8;0.4;0;    #r;g;b;
-	0; 61680; #espessura; tipografia;
-	45;0.5;0.5;0; #orientacao[4];
-	-20;-10;0;    #translacao[3];
-	0.8;0.8;0;    #cor alternativa
-	10; 50;       #raio; altura
-	6;            #reparticoes
-
 9;U; #Um cubo
 	0.8;0.4;0;    #r;g;b;
 	0; 61680;     #espessura; tipografia;
@@ -105,3 +96,22 @@
         	0;1;0;0;      #orientacao[4];
         	15;-10;10;    #translacao[3];
         	10;20;        #raio;reparticoes
+12;A; #Outra animacao!
+      720;1;
+        12;O; #Um cone
+        	0.8;0.4;0;    #r;g;b;
+        	0; 61680;     #espessura; tipografia;
+        	0;0.5;0.5;0; #orientacao[4];
+        	-20;-10;0;    #translacao[3];
+        	0.8;0.8;0;    #cor alternativa
+        	10; 50;       #raio; altura
+        	3;            #reparticoes
+        	
+        12;O; #Um cone
+        	0.8;0.4;0;    #r;g;b;
+        	0; 61680;     #espessura; tipografia;
+        	720;0.5;0.5;0.0; #orientacao[4];
+        	-30;-10;0;    #translacao[3];
+        	0.8;0.8;0;    #cor alternativa
+        	10; 50;       #raio; altura
+        	15;            #reparticoes
