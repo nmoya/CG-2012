@@ -51,6 +51,9 @@ void Inicializa (void)
 //	glEnable(GL_CULL_FACE);
 	glDisable(GL_CULL_FACE);
 
+// Normaliza normais automaticamente
+   glEnable(GL_NORMALIZE);
+   
 // Habilitando o teste de profundidade 
 	glEnable(GL_DEPTH_TEST);
 //	glDisable(GL_DEPTH_TEST);
@@ -89,7 +92,7 @@ void reshape(int w, int h)
 // Função callback chamada para gerenciar eventos de teclas
 void Teclado (unsigned char key, int x, int y)
 {
-             glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         int i;
         for(i=0; i<objetosGraficos_len; i++){
             desenhaObjetoGrafico(&objetosGraficos[i]);
