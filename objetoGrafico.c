@@ -148,7 +148,7 @@ void desenhaTrianguloOg(objetoGrafico* og, float* verts[]){
      if(ehSolido(og)) modoDesenho = GL_TRIANGLES;
      else             modoDesenho = GL_LINE_LOOP;
      float u[3],v[3],norm[3],magnitude;
-     #define vcopy(v1,v2) memcpy(v1,v2,sizeof(v1))
+     #define vcopy(v1,v2) v1[0]=v2[0]; v1[1]=v2[1]; v1[2] =v2[2]//memcpy(v1,v2,sizeof(v1))
      #define  vdif(v1,v2) for(k=0;k<3;k++) v1[k]=v2[k]-v1[k]
      #define magn(v)      sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2])
      
@@ -203,7 +203,7 @@ void desenhaRetanguloOg(objetoGrafico* og, float* verts[]){
      if(ehSolido(og))
      {
          desenhaTrianguloOg(og, ponto);
-         desenhaTrianguloOg(og, &(ponto[1]));
+         desenhaTrianguloOgInvNorm(og, &(ponto[1]));
      }
      else{
           ponto[3]=vertsInterno[2];
@@ -215,7 +215,6 @@ void desenhaRetanguloOg(objetoGrafico* og, float* verts[]){
 
 void desenhaRetangulo(objetoGrafico* og){
     //printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);
-    printAviso(og, "Espessura e tipografia ainda nao implementadas");
     glPushMatrix(); //Salva a matriz
     aplicaCorTransformacoesPadrao(og);
     float lado         = getValoresExtra(og)[0];
