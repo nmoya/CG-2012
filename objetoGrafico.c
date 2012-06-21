@@ -233,10 +233,12 @@ void desenhaRetangulo(objetoGrafico* og){
 void desenhaCubo(objetoGrafico* og){
     glPushMatrix(); //Salva a matriz
     aplicaCorTransformacoesPadrao(og);
-    int i;
+    int i, k;
     float aresta       = getValoresExtra(og)[0];
+    float aux[4][3];
+    #define inverteFace() for(i=0;i<4;i++)for(k=0;k<3;k++)aux[i][k]=vertsInterno[i][k];for(i=0;i<2;i++)for(k=0;k<3;k++)vertsInterno[i][k]=aux[2+i][k];for(i=0;i<2;i++)for(k=0;k<3;k++)vertsInterno[2+i][k]=aux[i][k];
     
-   float vertsInterno[4][3] = {
+    float vertsInterno[4][3] = {
          {aresta/2,-aresta/2,aresta/2},
          {aresta/2,-aresta/2,-aresta/2},
          {aresta/2,aresta/2,aresta/2},
@@ -244,27 +246,33 @@ void desenhaCubo(objetoGrafico* og){
    };
    float * ponto[] ={ vertsInterno[0], vertsInterno[1], vertsInterno[2], vertsInterno[3] };
    
+   inverteFace();   
    desenhaRetanguloOg(og,ponto);
 
-   for(i=0;i<4;i++) vertsInterno[i][0]*=-1;
+   for(i=0;i<4;i++) vertsInterno[i][0]*=-1;   
+   inverteFace();   
    desenhaRetanguloOg(og,ponto);
    
    for(i=0;i<2;i++){
         vertsInterno[i][0]*=-1;
         vertsInterno[i][1]*=-1;
-   }
+   }   
+   inverteFace();   
    desenhaRetanguloOg(og,ponto);
    
    for(i=0;i<4;i++) vertsInterno[i][1]*=-1;
+   inverteFace();  
    desenhaRetanguloOg(og,ponto);
    
    for(i=0;i<4;i+=2){
         vertsInterno[i][1]*=-1;
         vertsInterno[i][2]*=-1;
    }
+   inverteFace();  
    desenhaRetanguloOg(og,ponto);
    
    for(i=0;i<4;i++) vertsInterno[i][2]*=-1;
+   inverteFace();  
    desenhaRetanguloOg(og,ponto);
 
    glPopMatrix(); //Deixa a matriz como ela estava antes  
