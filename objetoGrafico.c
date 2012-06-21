@@ -236,7 +236,11 @@ void desenhaCubo(objetoGrafico* og){
     int i, k;
     float aresta       = getValoresExtra(og)[0];
     float aux[4][3];
-    #define inverteFace() for(i=0;i<4;i++)for(k=0;k<3;k++)aux[i][k]=vertsInterno[i][k];for(i=0;i<2;i++)for(k=0;k<3;k++)vertsInterno[i][k]=aux[2+i][k];for(i=0;i<2;i++)for(k=0;k<3;k++)vertsInterno[2+i][k]=aux[i][k];
+    #define inverteFace() for(i=0;i<4;i++) \
+                              for(k=0;k<3;k++) \
+                                   aux[i][k]=vertsInterno[i][k]; \
+                                   for(i=0;i<2;i++)for(k=0;k<3;k++) vertsInterno[i][k]=aux[2+i][k]; \
+                                   for(i=0;i<2;i++)for(k=0;k<3;k++) vertsInterno[2+i][k]=aux[i][k];
     
     float vertsInterno[4][3] = {
          {aresta/2,-aresta/2,aresta/2},
