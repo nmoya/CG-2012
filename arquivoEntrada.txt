@@ -13,6 +13,8 @@
 #D - Direita
 #Z - Zoom in
 #X - Zoom out
+#V - Visibilidade (Digitar o ID na janela de comando do objeto que deseja ocultar/mostrar ID 8 = cone palhaço)
+#I - Modo wireframe
 #A especificação de cada objeto está comentada abaixo. Mudar a primeira linha para o numero de objetos que vao ser desenhados.
 
 1;P;
