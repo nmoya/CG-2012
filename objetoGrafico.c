@@ -457,7 +457,7 @@ void desenhaKomposto(objetoGrafico *og){
     float  alturaC      = getValoresExtra(og)[6];
     float  reparticoesC = getValoresExtra(og)[7];
     
-    objetoGrafico esfera, cilindro;
+    objetoGrafico esfera, cone;
     
     //Monta esfera
     esfera.id = -1;
@@ -483,34 +483,34 @@ void desenhaKomposto(objetoGrafico *og){
     
     desenhaEsfera(&esfera);
     
-    //Monta Cilindro
-    cilindro.id = -1;
-    cilindro.tipo = TCILINDRO;
-    cilindro.valores[ICOR]            = cor[0];
-    cilindro.valores[ICOR+1]          = cor[1];
-    cilindro.valores[ICOR+2]          = cor[2];
+    //Monta Cone
+    cone.id = -1;
+    cone.tipo = TCONE;
+    cone.valores[ICOR]            = cor[0];
+    cone.valores[ICOR+1]          = cor[1];
+    cone.valores[ICOR+2]          = cor[2];
     
-    cilindro.valores[IESPESSURA]      = espessura;
-    cilindro.valores[ITIPOGRAFIA]     = tipografia;
+    cone.valores[IESPESSURA]      = espessura;
+    cone.valores[ITIPOGRAFIA]     = tipografia;
     
-    cilindro.valores[IORIENTACAO]     = orientacao[0];
-    cilindro.valores[IORIENTACAO+1]     = orientacao[1];
-    cilindro.valores[IORIENTACAO+2]     = orientacao[2];
-    cilindro.valores[IORIENTACAO+3]     = orientacao[3];
+    cone.valores[IORIENTACAO]     = orientacao[0];
+    cone.valores[IORIENTACAO+1]     = orientacao[1];
+    cone.valores[IORIENTACAO+2]     = orientacao[2];
+    cone.valores[IORIENTACAO+3]     = orientacao[3];
     
-    cilindro.valores[ITRANSLACAO]       = x;
-    cilindro.valores[ITRANSLACAO+1]     = y;
-    cilindro.valores[ITRANSLACAO+2]     = z;
+    cone.valores[ITRANSLACAO]       = x;
+    cone.valores[ITRANSLACAO+1]     = y;
+    cone.valores[ITRANSLACAO+2]     = z;
     
-    cilindro.valores[IRESTO]            = corAlt[0];
-    cilindro.valores[IRESTO+1]          = corAlt[1];
-    cilindro.valores[IRESTO+2]          = corAlt[2];
+    cone.valores[IRESTO]            = corAlt[0];
+    cone.valores[IRESTO+1]          = corAlt[1];
+    cone.valores[IRESTO+2]          = corAlt[2];
 
-    cilindro.valores[IRESTO+3]          = raioC;
-    cilindro.valores[IRESTO+4]          = alturaC;
-    cilindro.valores[IRESTO+5]          = reparticoesC;
+    cone.valores[IRESTO+3]          = raioC;
+    cone.valores[IRESTO+4]          = alturaC;
+    cone.valores[IRESTO+5]          = reparticoesC;
     
-    desenhaCilindro(&cilindro);
+    desenhaCone(&cone);
     
 }
 
