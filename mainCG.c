@@ -119,3 +119,7 @@ int main(void)
 	free(objetosGraficos);
 	return 0;
 }
+
+
+
+

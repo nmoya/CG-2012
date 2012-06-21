@@ -7,7 +7,7 @@
 //*****************************************************
 
 #include <stdlib.h>
-#include <GL/glut.h>
+#include "glut.h"
 
 float win, aspecto;
 int largura, altura;
@@ -114,6 +114,30 @@ void Teclado (unsigned char key, int x, int y)
 {
 	if (key == 27)
 		exit(0);
+	switch(key) 
+    {
+		case GLUT_KEY_UP:
+             {
+                         glRotatef(1,0,1,0);  //Angle, x, y, z
+                         break;
+             }
+		case GLUT_KEY_DOWN:
+             {
+                           glRotatef(1,0,1,0); 
+                           break;
+             }
+	   case GLUT_KEY_LEFT:
+            {
+                          glRotatef(1,0,1,0); 
+                           break;
+                          }
+       case GLUT_KEY_RIGHT:
+            {
+                          glRotatef(1,0,1,0); 
+                           break;
+                          }
+    
+	}
 }
 
 // Função responsável por inicializar parâmetros e variáveis
