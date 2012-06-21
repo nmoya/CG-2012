@@ -17,6 +17,7 @@
 #define TCILINDRO   'I'
 #define TKOMPOSTO   'K'
 #define TILUMINACAO 'M'
+#define TANIMACAO   'A'
 
 // Numero de argumentos padrao
 #define NCOR        3
@@ -40,6 +41,8 @@ typedef struct{
     int id;
     char tipo;
     float valores[MAX_VALORES]; // R;G;B;Espessura;Tipografia;Orientacao[4];Translacao[3];p1x;p1y;p1z;p2x;p2y;p3z;...
+    int quadroAtual;
+    int invisivel;
 } objetoGrafico;                //Espessura == 0 -> solido
 
 static float* getCor(objetoGrafico* og)         { return &og->valores[ICOR]; }
@@ -63,6 +66,8 @@ void desenhaTorus(objetoGrafico* og);
 void desenhaCilindro(objetoGrafico* og);
 void desenhaKomposto(objetoGrafico* og);
 void configuraIluminacao(objetoGrafico* og);
+void inicioAnimacao(objetoGrafico* og);
+void fimAnimacao(objetoGrafico* og);
 
 static int numParametros(char tipo){
     switch(tipo){ //XXX preencher numero de parametros correto
@@ -79,11 +84,13 @@ static int numParametros(char tipo){
 		case TKOMPOSTO:  return NARGSCOMUNS+1+1 +  /* Esfera do pirulito =)*/  
                          1*NCOR+1+1+1; // Cilindro do pirulito =)
         case TILUMINACAO:return NILUMINACAO;
+        case TANIMACAO:return 2;
         default: return -1;
     }
 }
 
 static void desenhaObjetoGrafico(objetoGrafico* og){
+    if(og->invisivel) return;
     switch(og->tipo){
         case TPONTO:     return desenhaPonto(og); 
 		case TLINHA:     return desenhaLinha(og); 
@@ -97,6 +104,7 @@ static void desenhaObjetoGrafico(objetoGrafico* og){
 		case TCILINDRO:  return desenhaCilindro(og);
 		case TKOMPOSTO:  return desenhaKomposto(og);
 		case TILUMINACAO:return configuraIluminacao(og);
+        case TANIMACAO:  return inicioAnimacao(og);
     }
     printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);
 }

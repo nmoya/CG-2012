@@ -15,10 +15,6 @@ int objetosGraficos_len;
 
 void Desenha(void)
 {
-    #ifdef DEBUG_SPIN_SPIN
-    while(1){
-    #endif
-    
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	int i;
 	for(i=0; i<objetosGraficos_len; i++){
@@ -30,7 +26,6 @@ void Desenha(void)
     
     #ifdef DEBUG_SPIN_SPIN
 	glRotatef(1,0,1,0);
-    }
     #endif
 }
 
@@ -101,6 +96,7 @@ int main(void)
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutCreateWindow("Visualizador");
 	glutDisplayFunc(Desenha);
+	glutIdleFunc(Desenha);
 	Inicializa();
     glutReshapeFunc(reshape);
 	glutMainLoop();

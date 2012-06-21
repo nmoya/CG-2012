@@ -1,4 +1,9 @@
-11 #numero de objetos
+13 #numero de objetos
+
+0;M; #Configuracoes de iluminacao
+    0.2;0.2;0.2;1.0; #cor da luz ambiente
+    1.0;1.0;1.0;1.0; #cor da luz
+    4;-30;8;1;       #posicao da luz
 
 1;P;
 	0.5;1;1; #r; g; b;
@@ -41,15 +46,15 @@
 	0;0;0;    #translacao[3];
 	0;-100;0; 0;100;0; #vertices
 	
-7;K; #Um Pirulito
-	0.1;0.5;1;    #r;g;b
-	0;61680;      #espessura; tipografia;
-	1;0;1;0;      #orientacao[4];
-	10;0;25;      #translacao[3];
-	5;10;        #raio;reparticoes; da Esfera
-	0.2;0;0;     #r;g;b alternativa;
-	5;50;        #raio;altura; do Cilindro
-	100;         #reparticoes do Cilindro
+#7;K; #Um Pirulito
+#	0.1;0.5;1;    #r;g;b
+#	0;61680;      #espessura; tipografia;
+#	1;0;1;0;      #orientacao[4];
+#	10;0;25;      #translacao[3];
+#	5;10;        #raio;reparticoes; da Esfera
+#	0.2;0;0;     #r;g;b alternativa;
+#	5;50;        #raio;altura; do Cilindro
+#	100;         #reparticoes do Cilindro
 	
 8;O; #Um cone
 	0.8;0.4;0;    #r;g;b;
@@ -74,7 +79,19 @@
 	-15;10;-10;   #translacao[3];
 	20; 25;       #lado; altura;
 	
-11;M; #Configuracoes de iluminacao
-    0.2;0.2;0.2;1.0; #cor da luz ambiente
-    1.0;1.0;1.0;1.0; #cor da luz
-    4;-30;8;1;       #posicao da luz
+
+11;A; #Animacao!
+    90;1;           #tamanho da animacao (quadros);incremento (1,0,-1)
+        11;E; #Uma esfera, estado inicial
+        	0.1;0.5;1;    #r;g;b;
+        	0; 61680;     #espessura; tipografia;
+        	0;1;0;0;      #orientacao[4];
+        	-15;10;-20;   #translacao[3];
+        	2;20;         #raio;reparticoes
+        	
+        11;E; #Uma esfera, estado final
+        	0.1;1;0.5;    #r;g;b;
+        	0; 61680;     #espessura; tipografia;
+        	0;1;0;0;      #orientacao[4];
+        	15;-10;10;    #translacao[3];
+        	10;20;        #raio;reparticoes
