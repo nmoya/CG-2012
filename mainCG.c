@@ -45,7 +45,7 @@ void Inicializa (void)
 // ========================== testes de modo de desenho ======================
 //	Modo de definição de cor
 	glShadeModel(GL_FLAT);
-//	glShadeModel(GL_SMOOTH);	
+	glShadeModel(GL_SMOOTH);	
 
 // Turn culling 
 //	glEnable(GL_CULL_FACE);
@@ -56,11 +56,27 @@ void Inicializa (void)
 //	glDisable(GL_DEPTH_TEST);
 
 // Desenhando a parte posterior somente como linha
-//	glPolygonMode(GL_BACK,GL_LINE);
-	glPolygonMode(GL_BACK,GL_FILL);
+	glPolygonMode(GL_BACK,GL_LINE);
+//	glPolygonMode(GL_BACK,GL_FILL);
+//Modo Wireframe
+	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
 // Tipografia de linha
    glEnable(GL_LINE_STIPPLE);
+
+// Teste de iluminação   
+   glEnable(GL_LIGHTING); //Enable lighting
+   glEnable(GL_LIGHT0); //Enable light #0
+//   glEnable(GL_COLOR_MATERIAL);
+   glEnable(GL_NORMALIZE); //Automatically normalize normals
+   
+   GLfloat ambientColor[] = {0.2f, 0.2f, 0.2f, 1.0f}; //Color (0.2, 0.2, 0.2)
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
+  GLfloat lightColor0[] = {1.0f, 1.0f, 1.0f, 1.0f}; 
+	GLfloat lightPos0[] = {4.0f, -30.0f, 8.0f, 1.0f}; //Positioned at (4, 0, 8)
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+
 }
 
 void reshape(int w, int h)

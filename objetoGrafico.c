@@ -24,9 +24,13 @@ void aplicaCorTransformacoesPadrao(objetoGrafico* og){
      float* trans        = getTranslacao(og);
      float  espessura    = getEspessura(og);
      GLushort tipografia = getTipografia(og);
-
-     //Cor e transformacoes
+     GLfloat corMat[]    = {cor[0],cor[1],cor[2],1.f};
+     GLfloat emission[]  = {0,0,0,0};
+     
+     //Cor, material e transformacoes
      glColor3f(cor[0],cor[1],cor[2]);
+     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corMat);
+     //glMaterialfv(GL_FRONT, GL_EMISSION, emission);
      glTranslatef(trans[0],trans[1],trans[2]);
      glRotatef(orient[0],orient[1],orient[2],orient[3]);
 
@@ -38,7 +42,7 @@ void aplicaCorTransformacoesPadrao(objetoGrafico* og){
 //Funcoes de desenho
 void desenhaPonto(objetoGrafico* og){
     glPushMatrix(); //Salva a matriz
-    aplicaCorTransformacoesPadrao(og);
+    //aplicaCorTransformacoesPadrao(og);
      
     float* cor         = getCor(og);
     float *translacao = getTranslacao(og);
@@ -119,6 +123,7 @@ printAviso(og, "Espessura e tipografia ainda nao implementadas");
 
 void desenhaEsfera(objetoGrafico* og){
     glPushMatrix(); //Salva a matriz
+    //glEnable(GL_LIGHTING);
     aplicaCorTransformacoesPadrao(og);   
     float* cor         = getCor(og);
     float *translacao = getTranslacao(og);
@@ -128,6 +133,7 @@ void desenhaEsfera(objetoGrafico* og){
     
     if(ehSolido(og)) glutSolidSphere(raio, reparticoes,reparticoes);
     else glutWireSphere(raio,reparticoes,reparticoes);
+    //glDisable(GL_LIGHTING);
     glPopMatrix(); //Deixa a matriz como ela estava antes
 }
 
@@ -187,15 +193,36 @@ void desenhaRetangulo(objetoGrafico* og){
 
 void desenhaTrianguloOg(objetoGrafico* og, float* verts[]){
      GLenum modoDesenho;
-     int i;
+     int i,k;
      if(ehSolido(og)) modoDesenho = GL_TRIANGLES;
      else             modoDesenho = GL_LINE_LOOP;
+     float u[3],v[3],norm[3],magnitude;
+     #define vcopy(v1,v2) memcpy(v1,v2,sizeof(float)*3)
+     #define  vdif(v1,v2) for(k=0;k<3;k++) v1[k]=v2[k]-v1[k]
+     #define magn(v)      sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2])
+     
+     //Calculo da normal
+     vcopy(u,verts[1]); vdif(u,verts[0]);
+     vcopy(v,verts[2]); vdif(v,verts[0]);
+     norm[0] = u[1]*v[2] - u[2]*v[1];
+     norm[1] = u[2]*v[0] - u[0]*v[2];
+     norm[2] = u[0]*v[1] - u[1]*v[0];
+     magnitude = magn(norm);
+     for(k=0;k<3;k++) norm[k]/=magnitude;
+
+
      glBegin(modoDesenho);
+         glNormal3d(norm[0],norm[1],norm[2]);
          for(i=0;i<3;i++){
-             float* v = verts[i];
+             float* v = verts[2-i];
              glVertex3f(v[0],v[1],v[2]);
          }
      glEnd();   
+}
+
+void desenhaTrianguloOgInvNorm(objetoGrafico* og, float* vOrg[]){
+     float* verts[3] = {vOrg[0],vOrg[2],vOrg[1]};
+     desenhaTrianguloOg(og,verts);
 }
 
 void desenhaTriangulo(objetoGrafico* og){
@@ -390,9 +417,11 @@ void desenhaCone(objetoGrafico* og){
     float  raio        = getValoresExtra(og)[3];
     float  alturaOrg   = getValoresExtra(og)[4];
     float  reparticoes = getValoresExtra(og)[5];
+    GLfloat corMat[]    = {cor[0],cor[1],cor[2],1.f};
+    GLfloat corAltMat[]    = {corAlt[0],corAlt[1],corAlt[2],1.f};
     float angle[2], x,y;
     int iPivot=0,i,k;
-    float altura[2] = {0, alturaOrg};
+    float altura[2] = {alturaOrg,0};
     
     const float pi=3.1415f;
     
@@ -400,13 +429,20 @@ void desenhaCone(objetoGrafico* og){
     float vert2[] = {0,0,0};
     float vert3[] = {0,0,0};
     float * verts[3] ={ vert1, vert2, vert3 };
+    #define setVerts(v0,v1,v2) verts[0]=v0; verts[1]=v1; verts[2]=v2
 
     angle[0] = 0;
     do{
        angle[1] = min(angle[0]+(pi/reparticoes),(2.0f*pi));
    	   //Cor alternando
-       if((iPivot++ %2) == 0) glColor3f(cor[0], cor[1], cor[2]);
-       else                   glColor3f(corAlt[0],corAlt[1], corAlt[2]);
+       if((iPivot++ %2) == 0) {
+            glColor3f(cor[0], cor[1], cor[2]);
+            glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corMat);
+       }
+       else{
+            glColor3f(corAlt[0],corAlt[1], corAlt[2]);
+            glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corAltMat);
+       }
        
        for(k=0;k<2;k++){
            vert1[2]=altura[k];
@@ -414,7 +450,8 @@ void desenhaCone(objetoGrafico* og){
               verts[i+1][0] = raio*sin(angle[i]);
               verts[i+1][1] = raio*cos(angle[i]);
            }
-           desenhaTrianguloOg(og,verts);
+           if(altura[k] == 0) desenhaTrianguloOgInvNorm(og,verts);
+           else               desenhaTrianguloOg(og,verts);
        }
        angle[0]=angle[1];
     }while(angle[0] < (2.0f*pi));
