@@ -290,8 +290,8 @@ void desenhaCone(objetoGrafico* og){
     float  raio        = getValoresExtra(og)[3];
     float  alturaOrg   = getValoresExtra(og)[4];
     float  reparticoes = getValoresExtra(og)[5];
-    GLfloat corMat[]    = {cor[0],cor[1],cor[2],1.f};
-    GLfloat corAltMat[]    = {corAlt[0],corAlt[1],corAlt[2],1.f};
+    GLfloat corMat[]   = {cor[0],cor[1],cor[2],1.f};
+    GLfloat corAltMat[]= {corAlt[0],corAlt[1],corAlt[2],1.f};
     float angle[2], x,y;
     int iPivot=0,i,k;
     float altura[2] = {alturaOrg,0};
@@ -512,4 +512,18 @@ void desenhaKomposto(objetoGrafico *og){
     
     desenhaCilindro(&cilindro);
     
+}
+
+void configuraIluminacao(objetoGrafico* og){
+    glEnable(GL_LIGHTING); 
+    glEnable(GL_LIGHT0); 
+//   glEnable(GL_COLOR_MATERIAL);
+
+    GLfloat *corAmbiente = &og->valores[0];
+    GLfloat *corLuz      = &og->valores[4];
+    GLfloat *posicaoLuz  = &og->valores[8];
+   
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, corAmbiente);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, corLuz);
+	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
 }

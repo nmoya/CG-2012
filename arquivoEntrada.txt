@@ -1,4 +1,4 @@
-10 #numero de objetos
+11 #numero de objetos
 
 1;P;
 	0.5;1;1; #r; g; b;
@@ -74,3 +74,7 @@
 	-15;10;-10;   #translacao[3];
 	20; 25;       #lado; altura;
 	
+11;M; #Configuracoes de iluminacao
+    0.2;0.2;0.2;1.0; #cor da luz ambiente
+    1.0;1.0;1.0;1.0; #cor da luz
+    4;-30;8;1;       #posicao da luz

@@ -64,19 +64,8 @@ void Inicializa (void)
 // Tipografia de linha
    glEnable(GL_LINE_STIPPLE);
 
-// Teste de iluminação   
-   glEnable(GL_LIGHTING); //Enable lighting
-   glEnable(GL_LIGHT0); //Enable light #0
-//   glEnable(GL_COLOR_MATERIAL);
-   glEnable(GL_NORMALIZE); //Automatically normalize normals
-   
-   GLfloat ambientColor[] = {0.2f, 0.2f, 0.2f, 1.0f}; //Color (0.2, 0.2, 0.2)
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
-  GLfloat lightColor0[] = {1.0f, 1.0f, 1.0f, 1.0f}; 
-	GLfloat lightPos0[] = {4.0f, -30.0f, 8.0f, 1.0f}; //Positioned at (4, 0, 8)
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
-
+// Normaliza normais automaticamente
+   glEnable(GL_NORMALIZE);
 }
 
 void reshape(int w, int h)

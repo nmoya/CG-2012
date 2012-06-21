@@ -5,17 +5,18 @@
 
 #define NPONTO 3
 
-#define TPONTO     'P'
-#define TLINHA     'L'
-#define TCIRCULO   'C'
-#define TESFERA    'E'
-#define TQUADRADO 'Q'
-#define TTRIANGULO 'T'
-#define TCUBO      'U'
-#define TCONE      'O'
-#define TTORUS     'S'
-#define TCILINDRO  'I'
-#define TKOMPOSTO  'K'
+#define TPONTO      'P'
+#define TLINHA      'L'
+#define TCIRCULO    'C'
+#define TESFERA     'E'
+#define TQUADRADO   'Q'
+#define TTRIANGULO  'T'
+#define TCUBO       'U'
+#define TCONE       'O'
+#define TTORUS      'S'
+#define TCILINDRO   'I'
+#define TKOMPOSTO   'K'
+#define TILUMINACAO 'M'
 
 // Numero de argumentos padrao
 #define NCOR        3
@@ -24,6 +25,8 @@
 #define NORIENTACAO 4
 #define NTRANSLACAO 3
 #define NARGSCOMUNS (NCOR+NESPESSURA+NTIPOGRAFIA+NORIENTACAO+NTRANSLACAO)
+
+#define NILUMINACAO (4*2+4) //corAmbiente+corLuz+posicao
 
 // Indice dos argumentos
 #define ICOR 0
@@ -59,6 +62,7 @@ void desenhaCone(objetoGrafico* og);
 void desenhaTorus(objetoGrafico* og);
 void desenhaCilindro(objetoGrafico* og);
 void desenhaKomposto(objetoGrafico* og);
+void configuraIluminacao(objetoGrafico* og);
 
 static int numParametros(char tipo){
     switch(tipo){ //XXX preencher numero de parametros correto
@@ -74,6 +78,7 @@ static int numParametros(char tipo){
 		case TCILINDRO:  return NARGSCOMUNS+1*NCOR+1+1+1;  //+ corAlternativa + raio + altura + reparticoes INCOMPLETO
 		case TKOMPOSTO:  return NARGSCOMUNS+1+1 +  /* Esfera do pirulito =)*/  
                          1*NCOR+1+1+1; // Cilindro do pirulito =)
+        case TILUMINACAO:return NILUMINACAO;
         default: return -1;
     }
 }
@@ -90,7 +95,8 @@ static void desenhaObjetoGrafico(objetoGrafico* og){
 		case TCONE:      return desenhaCone(og); 
 		case TTORUS:     return desenhaTorus(og); 
 		case TCILINDRO:  return desenhaCilindro(og);
-		case TKOMPOSTO:   return desenhaKomposto(og);
+		case TKOMPOSTO:  return desenhaKomposto(og);
+		case TILUMINACAO:return configuraIluminacao(og);
     }
     printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);
 }
