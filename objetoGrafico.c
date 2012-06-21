@@ -527,3 +527,25 @@ void configuraIluminacao(objetoGrafico* og){
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, corLuz);
 	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
 }
+
+void inicioAnimacao(objetoGrafico* og){
+     int quadros = og->valores[0];
+     int incremento = og->valores[1];
+     objetoGrafico obVis;
+     og[1].invisivel=og[2].invisivel=1;
+     memcpy(&obVis,&og[1],sizeof(objetoGrafico));
+     obVis.invisivel=0;
+     int *quadroAtual =&og[1].quadroAtual; 
+     float prog = (*quadroAtual)/(float)quadros;
+     (*quadroAtual)+=incremento;
+     if(*quadroAtual >= quadros || *quadroAtual <= 0) og->valores[1]*=-1;
+     //printf("%d %f\n",og[1].quadroAtual, prog);
+     int i;
+     for(i=0;i<numParametros(og[1].tipo);i++){
+        obVis.valores[i]=og[1].valores[i]*prog+og[2].valores[i]*(1-prog);
+     }
+     desenhaObjetoGrafico(&obVis);
+}
+
+void fimAnimacao(objetoGrafico* og){
+}

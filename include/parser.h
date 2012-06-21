@@ -42,6 +42,8 @@ static objetoGrafico* carregaObjetosGraficos(FILE* arq, int* len){
 
     for(i=0;i<*len;i++){
         og = &vetorObjetos[i];
+        og->quadroAtual=0;
+        og->invisivel=0;
         readInt(&og->id);
         readChar(&og->tipo);
         if((nParametros = numParametros(og->tipo)) == -1) goto erro;

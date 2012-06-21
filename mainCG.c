@@ -92,6 +92,7 @@ void reshape(int w, int h)
 // Função callback chamada para gerenciar eventos de teclas
 void Teclado (unsigned char key, int x, int y)
 {
+     #define INCREMENTO_TECLADO 1.5
      glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         int i;
         for(i=0; i<objetosGraficos_len; i++){
@@ -103,36 +104,47 @@ void Teclado (unsigned char key, int x, int y)
 		exit(0);
 	if (key == 'w')
 	{
-	   glRotatef(5,1,0,0);
+	   glRotatef(INCREMENTO_TECLADO,1,0,0);
     }
     else if (key == 'a')
     {         
-        glRotatef(-5,0,1,0); 
+        glRotatef(-INCREMENTO_TECLADO,0,1,0); 
     }
     else if (key == 's')
     {
-         glRotatef(-5,1,0,0);
+         glRotatef(-INCREMENTO_TECLADO,1,0,0);
     }
     else if (key == 'd')
     {
-         glRotatef(5,0,1,0); 
+         glRotatef(INCREMENTO_TECLADO,0,1,0); 
     }
     else if (key == 'z')     //Zoom In
     {
-         nRange+=10;
+         nRange+=INCREMENTO_TECLADO*2;
          reshape(width, height);
     }
     else if (key == 'x')     //Zoom 'Out'
     {
-         nRange-=10;
+         nRange-=INCREMENTO_TECLADO*2;
          reshape(width, height);
     }
-    else if (key == 'i')
+    else if (key == 'i') //Modo wireframe
     {
+         static int modoWireframeLigado=0;
+         if(!modoWireframeLigado) glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+         else                     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+         modoWireframeLigado=!modoWireframeLigado;
     }
     else if (key == 'v')
     {
-          
+         int id,i;
+         printf("Digite a id do objeto que voce queira ligar/desligar a visibilidade:\n");
+         fscanf(stdin,"%d",&id);
+         printf("id=%d\n",id);
+         for(i=0; i<objetosGraficos_len; i++){
+             objetoGrafico* og = &objetosGraficos[i];
+             if(og->id == id) og->invisivel = !og->invisivel;
+         }
     }
 }
 
@@ -153,6 +165,7 @@ int main(void)
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutCreateWindow("Visualizador");
 	glutDisplayFunc(Desenha);
+	glutIdleFunc(Desenha);
     // Registra a função callback para tratamento das teclas ASCII
 	glutKeyboardFunc (Teclado);
 	Inicializa();
@@ -162,7 +175,5 @@ int main(void)
 	free(objetosGraficos);
 	return 0;
 }
-
-
 
 
