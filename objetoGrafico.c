@@ -56,7 +56,12 @@ void desenhaLinhaOg(objetoGrafico* og, float *pontos[], int numPontos){
      int i;
      glBegin(GL_LINES);
          for(i=0;i<numPontos;i++){
-             float* v = pontos[i];//verts[i];
+             float* v;
+             if(i > 1){
+                  v=pontos[i-1];//verts[i];
+                  glVertex3f(v[0],v[1],v[2]);
+             }
+             v=pontos[i];
              glVertex3f(v[0],v[1],v[2]);
          }
      glEnd();
@@ -74,7 +79,6 @@ void desenhaLinha(objetoGrafico* og){
      desenhaLinhaOg(og, verts,2);
      glPopMatrix(); //Deixa a matriz como ela estava antes
 }
-
 void desenhaCirculo(objetoGrafico* og){
 printAviso(og, "Espessura e tipografia ainda nao implementadas");
     glPushMatrix(); //Salva a matriz
@@ -131,59 +135,6 @@ void desenhaEsfera(objetoGrafico* og){
     glPopMatrix(); //Deixa a matriz como ela estava antes
 }
 
-void desenhaRetangulo(objetoGrafico* og){
-    //printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);
-    printAviso(og, "Espessura e tipografia ainda nao implementadas");
-    glPushMatrix(); //Salva a matriz
-    aplicaCorTransformacoesPadrao(og);
-    
-    float* cor         = getCor(og);
-    float lado         = getValoresExtra(og)[0];
-    float altura       = getValoresExtra(og)[1];
-    float espessura    = getEspessura(og);
-    float tipografia   = getTipografia(og);
-    
-    float p1[3];
-   float p2[3];
-   float * pontos[] = {p1,p2};
-    
-    glColor3f(cor[0],cor[1],cor[2]);
-	
-    if(espessura)
-    {     
-       p1[0]=lado/2; p1[1]=-altura/2; p1[2]=0;//esquerda, baixo   
-       p2[0]=-lado/2; p2[1]=-altura/2; p2[2]=0;//direita, baixo       
-       desenhaLinhaOg(og, pontos, 2);  
-       
-       p1[0]=lado/2; p1[1]=altura/2; p1[2]=0;//esquerda, cima   
-       p2[0]=-lado/2; p2[1]=altura/2; p2[2]=0;//direita, cima       
-       desenhaLinhaOg(og, pontos, 2);  
-       
-       p1[0]=lado/2; p1[1]=-altura/2; p1[2]=0;//esquerda, baixo   
-       p2[0]=lado/2; p2[1]=altura/2; p2[2]=0;//esquerda, cima       
-       desenhaLinhaOg(og, pontos, 2);  
-       
-       p1[0]=-lado/2; p1[1]=-altura/2; p1[2]=0;//direita, baixo   
-       p2[0]=-lado/2; p2[1]=altura/2; p2[2]=0;//direita, cima       
-       desenhaLinhaOg(og, pontos, 2);  
-    }
-    else
-    {   
-        glBegin(GL_TRIANGLE_FAN);     
-            // P1
-            //glColor3f(1,0,0); // vermelho        
-    
-            glVertex3f(lado/2, -altura/2, 0); //esquerda, baixo
-            glVertex3f(-lado/2, -altura/2, 0); //direita, baixo
-            glVertex3f(-lado/2, altura/2, 0); //direita, cima
-            
-            glVertex3f(lado/2, -altura/2, 0); //esquerda, baixo
-            glVertex3f(-lado/2, altura/2, 0); //direita, cima
-            glVertex3f(lado/2, altura/2, 0); //esquerda, cima
-        glEnd();     
-    }
-    glPopMatrix(); //Deixa a matriz como ela estava antes
-}
 
 void desenhaTrianguloOg(objetoGrafico* og, float* verts[]){
      GLenum modoDesenho;
@@ -213,171 +164,82 @@ void desenhaTriangulo(objetoGrafico* og){
      glPopMatrix(); //Deixa a matriz como ela estava antes
 }
 
-void desenhaCubo(objetoGrafico* og){
+void desenhaRetanguloOg(objetoGrafico* og, float* verts[]){ 
+     int i,k;
+     float vertsInterno[4][3];
+     float * ponto[] ={ vertsInterno[0], vertsInterno[1], vertsInterno[2], vertsInterno[3], vertsInterno[0] };
+     for(i=0;i<4;i++){
+         for(k=0;k<3;k++){
+             ponto[i][k] = verts[i][k];
+         }
+     }
+     if(ehSolido(og))
+     {
+         desenhaTrianguloOg(og, ponto);
+         desenhaTrianguloOg(og, &(ponto[1]));
+     }
+     else{
+          ponto[3]=vertsInterno[2];
+          ponto[2]=vertsInterno[3];
+          desenhaLinhaOg(og,ponto,5);
+          
+     }
+}
+
+void desenhaRetangulo(objetoGrafico* og){
     //printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);
     printAviso(og, "Espessura e tipografia ainda nao implementadas");
     glPushMatrix(); //Salva a matriz
     aplicaCorTransformacoesPadrao(og);
-    
-    float* cor         = getCor(og);
+    float lado         = getValoresExtra(og)[0];
+    float altura       = getValoresExtra(og)[1];
+    float vertsInterno[4][3] ={
+          {-lado/2,-altura/2,0},
+          {lado/2,-altura/2,0},
+          {-lado/2,altura/2,0},
+          {lado/2,altura/2,0}
+    };
+    float * ponto[] ={ vertsInterno[0], vertsInterno[1], vertsInterno[2], vertsInterno[3] };
+    desenhaRetanguloOg(og,ponto);
+    glPopMatrix(); //Deixa a matriz como ela estava antes
+}
+
+void desenhaCubo(objetoGrafico* og){
+    glPushMatrix(); //Salva a matriz
+    aplicaCorTransformacoesPadrao(og);
+    int i;
     float aresta       = getValoresExtra(og)[0];
-    float espessura    = getEspessura(og);
-    float tipografia   = getTipografia(og);
-       
-    /* Fotmato do cubo:
-           P6
-        P1-P2-P3-P4
-           P5
-    */
-    //glColor3f(cor[0],cor[1],cor[2]);
-	     
-   float p1[3];
-   float p2[3];
-   float * pontos[] = {p1,p2};
-   
-	
-   if(espessura)
-   {
-                //Esquerda
-       p1[0]=aresta/2; p1[1]=-aresta/2; p1[2]=aresta/2;//esquerda, baixo, fundo   
-       p2[0]=aresta/2; p2[1]=-aresta/2; p2[2]=-aresta/2;//esquerda, baixo, frente       
-       desenhaLinhaOg(og, pontos, 2);  
-       
-       p1[0]=aresta/2; p1[1]=-aresta/2; p1[2]=aresta/2;//esquerda, baixo, fundo   
-       p2[0]=aresta/2; p2[1]=aresta/2; p2[2]=aresta/2;//esquerda, cima, fundo       
-       desenhaLinhaOg(og, pontos, 2);
-       
-       p1[0]=aresta/2; p1[1]=-aresta/2; p1[2]=-aresta/2;//esquerda, baixo, frente   
-       p2[0]=aresta/2; p2[1]=aresta/2; p2[2]=-aresta/2;//esquerda, cima, frente
-       desenhaLinhaOg(og, pontos, 2);
-       
-       p1[0]=aresta/2; p1[1]=aresta/2; p1[2]=aresta/2;//esquerda, cima, fundo   
-       p2[0]=aresta/2; p2[1]=aresta/2; p2[2]=-aresta/2;//esquerda, cima, frente
-       desenhaLinhaOg(og, pontos, 2);
-                          //Direita
-       p1[0]=-aresta/2; p1[1]=-aresta/2; p1[2]=aresta/2;//direita, baixo, fundo   
-       p2[0]=-aresta/2; p2[1]=-aresta/2; p2[2]=-aresta/2;//direita, baixo, frente       
-       desenhaLinhaOg(og, pontos, 2);  
-       
-       p1[0]=-aresta/2; p1[1]=-aresta/2; p1[2]=aresta/2;//direita, baixo, fundo   
-       p2[0]=-aresta/2; p2[1]=aresta/2; p2[2]=aresta/2;//direita, cima, fundo       
-       desenhaLinhaOg(og, pontos, 2);
-       
-       p1[0]=-aresta/2; p1[1]=-aresta/2; p1[2]=-aresta/2;//direita, baixo, frente   
-       p2[0]=-aresta/2; p2[1]=aresta/2; p2[2]=-aresta/2;//direita, cima, frente
-       desenhaLinhaOg(og, pontos, 2);
-       
-       p1[0]=-aresta/2; p1[1]=aresta/2; p1[2]=aresta/2;//direita, cima, fundo   
-       p2[0]=-aresta/2; p2[1]=aresta/2; p2[2]=-aresta/2;//direita, cima, frente
-       desenhaLinhaOg(og, pontos, 2);
-       
-                          //Centro (frente)
-       p1[0]=aresta/2; p1[1]=aresta/2; p1[2]=-aresta/2;//esquerda, cima, frente   
-       p2[0]=-aresta/2; p2[1]=aresta/2; p2[2]=-aresta/2;//direita, cima, frente       
-       desenhaLinhaOg(og, pontos, 2);  
-       
-       p1[0]=aresta/2; p1[1]=-aresta/2; p1[2]=-aresta/2;//esquerda, baixo, frente   
-       p2[0]=-aresta/2; p2[1]=-aresta/2; p2[2]=-aresta/2;//direita, baixo, frente       
-       desenhaLinhaOg(og, pontos, 2); 
-                          //Centro (fundo)
-       p1[0]=aresta/2; p1[1]=aresta/2; p1[2]=aresta/2;//esquerda, cima, fundo   
-       p2[0]=-aresta/2; p2[1]=aresta/2; p2[2]=aresta/2;//direita, cima, fundo       
-       desenhaLinhaOg(og, pontos, 2);  
-       
-       p1[0]=aresta/2; p1[1]=-aresta/2; p1[2]=aresta/2;//esquerda, baixo, fundo   
-       p2[0]=-aresta/2; p2[1]=-aresta/2; p2[2]=aresta/2;//direita, baixo, fundo       
-       desenhaLinhaOg(og, pontos, 2); 
-       
-       
-       // diagonal
-       
-       /*p2[0]=aresta/2;
-       p2[1]=-aresta/2;
-       p2[2]=aresta/2;//esquerda, baixo, fundo       
-       
-       p1[0]=-aresta/2;
-       p1[1]=aresta/2;
-       p1[2]=-aresta/2;//direita, cima, frente
-       
-       desenhaLinhaOg(og, p1, p2);      */   
-   }
-   else
-   {
-       glBegin(GL_TRIANGLE_FAN);     
-            // P1
-            //glColor3f(1,0,0); // vermelho
-            
-            glVertex3f(aresta/2, -aresta/2, aresta/2); //esquerda, baixo, fundo
-            glVertex3f(aresta/2, -aresta/2, -aresta/2); //esquerda, baixo, frente
-            glVertex3f(-aresta/2, -aresta/2, -aresta/2); //direita, baixo, frente
-            
-            glVertex3f(aresta/2, -aresta/2, aresta/2); //esquerda, baixo, fundo
-            glVertex3f(-aresta/2, -aresta/2, -aresta/2); //direita, baixo, frente
-            glVertex3f(-aresta/2, -aresta/2, aresta/2); //direita, baixo, funco
-       glEnd();     
-       glBegin(GL_TRIANGLE_FAN);
-    		// P2
-    		//glColor3f(0,1,0); // verde
-    		
-    		glVertex3f(aresta/2, -aresta/2, aresta/2); //esquerda, baixo, fundo
-    		glVertex3f(-aresta/2, -aresta/2, aresta/2); //direita, baixo, funco
-    		glVertex3f(-aresta/2, aresta/2, aresta/2); //direita, cima, funco
-    				
-    		glVertex3f(aresta/2, aresta/2, aresta/2); //esquerda, cima, funco
-    		glVertex3f(aresta/2, -aresta/2, aresta/2); //esquerda, baixo, fundo
-    		glVertex3f(-aresta/2, aresta/2, aresta/2); //direita, cima, funco
-    	glEnd();    
-        glBegin(GL_TRIANGLE_FAN);
-    		// P3
-    		//glColor3f(0,0,1); // azul
-    		
-    	    glVertex3f(-aresta/2, -aresta/2, aresta/2); //direita, baixo, fundo
-    	    glVertex3f(-aresta/2, -aresta/2, -aresta/2); //direita, baixo, frente
-    	    glVertex3f(-aresta/2, aresta/2, -aresta/2); //direita, cima, frente
-    	    
-    	    glVertex3f(-aresta/2, -aresta/2, aresta/2); //direita, baixo, fundo
-    	    glVertex3f(-aresta/2, aresta/2, -aresta/2); //direita, cima, frente
-    	    glVertex3f(-aresta/2, aresta/2, aresta/2); //direita, cima, fundo
-        glEnd();
-        glBegin(GL_TRIANGLE_FAN);     
-            // P4
-            //glColor3f(1,1,1); // branco
-            
-            glVertex3f(aresta/2, aresta/2, aresta/2); //esquerda, cima, fundo
-            glVertex3f(aresta/2, aresta/2, -aresta/2); //esquerda, cima, frente
-            glVertex3f(-aresta/2, aresta/2, -aresta/2); //direita, cima, frente
-            
-            glVertex3f(aresta/2, aresta/2, aresta/2); //esquerda, cima, fundo
-            glVertex3f(-aresta/2, aresta/2, -aresta/2); //direita, cima, frente
-            glVertex3f(-aresta/2, aresta/2, aresta/2); //direita, cima, funco
-       glEnd(); 
-       glBegin(GL_TRIANGLE_FAN);     
-    	    // P5
-    	    //glColor3f(1,1,0); // amarelo
-    	    
-    	    glVertex3f(aresta/2, -aresta/2, aresta/2); //esquerda, baixo, fundo
-    	    glVertex3f(aresta/2, -aresta/2, -aresta/2); //esquerda, baixo, frente
-    	    glVertex3f(aresta/2, aresta/2, -aresta/2); //esquerda, cima, frente
-    	    
-    	    glVertex3f(aresta/2, -aresta/2, aresta/2); //esquerda, baixo, fundo
-    	    glVertex3f(aresta/2, aresta/2, -aresta/2); //esquerda, cima, frente
-    	    glVertex3f(aresta/2, aresta/2, aresta/2); //esquerda, cima, fundo
-       glEnd();    
-       glBegin(GL_TRIANGLE_FAN);  
-            // P6
-            //glColor3f(0,1,1); // ciano
-            
-    		glVertex3f(aresta/2, -aresta/2, -aresta/2); //esquerda, baixo, frente
-    		glVertex3f(-aresta/2, -aresta/2, -aresta/2); //direita, baixo, frente
-    		glVertex3f(-aresta/2, aresta/2, -aresta/2); //direita, cima, frente
-    				
-    		glVertex3f(aresta/2, aresta/2, -aresta/2); //esquerda, cima, frente
-    		glVertex3f(aresta/2, -aresta/2, -aresta/2); //esquerda, baixo, frente
-    		glVertex3f(-aresta/2, aresta/2, -aresta/2); //direita, cima, frente
-       glEnd();
-   }
-   
     
+   float vertsInterno[4][3] = {
+         {aresta/2,-aresta/2,aresta/2},
+         {aresta/2,-aresta/2,-aresta/2},
+         {aresta/2,aresta/2,aresta/2},
+         {aresta/2,aresta/2,-aresta/2}
+   };
+   float * ponto[] ={ vertsInterno[0], vertsInterno[1], vertsInterno[2], vertsInterno[3] };
+   
+   desenhaRetanguloOg(og,ponto);
+
+   for(i=0;i<4;i++) vertsInterno[i][0]*=-1;
+   desenhaRetanguloOg(og,ponto);
+   
+   for(i=0;i<2;i++){
+        vertsInterno[i][0]*=-1;
+        vertsInterno[i][1]*=-1;
+   }
+   desenhaRetanguloOg(og,ponto);
+   
+   for(i=0;i<4;i++) vertsInterno[i][1]*=-1;
+   desenhaRetanguloOg(og,ponto);
+   
+   for(i=0;i<4;i+=2){
+        vertsInterno[i][1]*=-1;
+        vertsInterno[i][2]*=-1;
+   }
+   desenhaRetanguloOg(og,ponto);
+   
+   for(i=0;i<4;i++) vertsInterno[i][2]*=-1;
+   desenhaRetanguloOg(og,ponto);
 
    glPopMatrix(); //Deixa a matriz como ela estava antes  
 }

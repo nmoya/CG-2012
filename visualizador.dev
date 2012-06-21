@@ -1,7 +1,7 @@
 [Project]
 FileName=visualizador.dev
 Name=Visualizador OpenGL
-UnitCount=4
+UnitCount=5
 Type=1
 Ver=1
 ObjFiles=
@@ -83,6 +83,15 @@ CompileCpp=0
 Folder=
 Compile=1
 Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit5]
+FileName=arquivoEntrada.txt
+Folder=Visualizador OpenGL
+Compile=0
+Link=0
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
