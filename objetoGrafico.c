@@ -148,7 +148,7 @@ void desenhaTrianguloOg(objetoGrafico* og, float* verts[]){
      if(ehSolido(og)) modoDesenho = GL_TRIANGLES;
      else             modoDesenho = GL_LINE_LOOP;
      float u[3],v[3],norm[3],magnitude;
-     #define vcopy(v1,v2) memcpy(v1,v2,sizeof(float)*3)
+     #define vcopy(v1,v2) memcpy(v1,v2,sizeof(v1))
      #define  vdif(v1,v2) for(k=0;k<3;k++) v1[k]=v2[k]-v1[k]
      #define magn(v)      sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2])
      
