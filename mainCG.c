@@ -8,7 +8,7 @@
 
 //#define DEBUG_SPIN_SPIN //SPIN, SPIN! Se definido, saia do programa com um CTRL+C na janela de linha de comando
 
-GLfloat nRange = 50.0f;  //XXX acredito que o professor tenha dito que essa variavel tenha que ser ajustada automaticamente (para caber toda a cena?)
+GLfloat nRange = 57.0f;  //XXX acredito que o professor tenha dito que essa variavel tenha que ser ajustada automaticamente (para caber toda a cena?)
 int height, width;
 objetoGrafico* objetosGraficos;
 int objetosGraficos_len;
@@ -37,14 +37,13 @@ void Desenha(void)
 // Inicializa parâmetros de rendering
 void Inicializa (void)
 {   
-//    glClearColor(1.0,1.0,1.0,0.0);       // set white background color
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // set black background color
 //	glMatrixMode(GL_PROJECTION); 
 //	glLoadIdentity();
 
 // ========================== testes de modo de desenho ======================
 //	Modo de definição de cor
-	glShadeModel(GL_FLAT);
+//	glShadeModel(GL_FLAT);
 	glShadeModel(GL_SMOOTH);	
 
 // Turn culling 
@@ -59,16 +58,11 @@ void Inicializa (void)
 //	glDisable(GL_DEPTH_TEST);
 
 // Desenhando a parte posterior somente como linha
-	glPolygonMode(GL_BACK,GL_LINE);
+//	glPolygonMode(GL_BACK,GL_LINE);
 //	glPolygonMode(GL_BACK,GL_FILL);
-//Modo Wireframe
-	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
 // Tipografia de linha
    glEnable(GL_LINE_STIPPLE);
-
-
-
 }
 
 void reshape(int w, int h)

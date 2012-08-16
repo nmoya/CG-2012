@@ -1,6 +1,8 @@
 #ifndef OBJETOGRAFICO_H
 #define OBJETOGRAFICO_H
 
+#include <stdio.h>
+
 #define MAX_VALORES 50
 
 #define NPONTO 3

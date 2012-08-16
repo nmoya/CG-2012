@@ -4,6 +4,7 @@
 #include <gl/Gl.h>
 #include <gl/glut.h>
 #include <gl/glu.h>			//Util library
+#include <math.h>
 
 //Funcoes ajudantes que imprimem o tipo e o id do objeto junto com uma mensagem de erro
 void printErro(objetoGrafico* og, char* erro)  { printf("ERRO(id=%d, tipo=%c): %s\n", og->id, og->tipo, erro); }
@@ -30,7 +31,7 @@ void aplicaCorTransformacoesPadrao(objetoGrafico* og){
      //Cor, material e transformacoes
      glColor3f(cor[0],cor[1],cor[2]);
      glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corMat);
-     //glMaterialfv(GL_FRONT, GL_EMISSION, emission);
+     glMaterialfv(GL_FRONT, GL_EMISSION, emission);
      glTranslatef(trans[0],trans[1],trans[2]);
      glRotatef(orient[0],orient[1],orient[2],orient[3]);
 
@@ -47,8 +48,8 @@ void desenhaPonto(objetoGrafico* og){
     float* cor         = getCor(og);
     float *translacao = getTranslacao(og);
     float x = translacao[0], y = translacao[1], z = translacao[2];
-    int iPivot=0;
-    float base;
+    glColor3f(cor[0],cor[1],cor[2]);
+
     glBegin(GL_POINTS);
     glVertex3f (x, y, z);
     glEnd();
@@ -84,7 +85,7 @@ void desenhaLinha(objetoGrafico* og){
      glPopMatrix(); //Deixa a matriz como ela estava antes
 }
 void desenhaCirculo(objetoGrafico* og){
-printAviso(og, "Espessura e tipografia ainda nao implementadas");
+    printAviso(og, "Espessura e tipografia ainda nao implementadas");
     glPushMatrix(); //Salva a matriz
     aplicaCorTransformacoesPadrao(og);
      
@@ -93,11 +94,10 @@ printAviso(og, "Espessura e tipografia ainda nao implementadas");
     float  raio        = getValoresExtra(og)[3];
     float  reparticoes = getValoresExtra(og)[4];
     float angle,x,y;
-    int iPivot=0;
-    float base;
    
     const float pi=3.1415f;
     float tamPart = 360/reparticoes;
+    int iPivot;
      
     // Desenhando as base do cilindro
        // Base 1
@@ -127,17 +127,12 @@ printAviso(og, "Espessura e tipografia ainda nao implementadas");
 
 void desenhaEsfera(objetoGrafico* og){
     glPushMatrix(); //Salva a matriz
-    //glEnable(GL_LIGHTING);
     aplicaCorTransformacoesPadrao(og);   
-    float* cor         = getCor(og);
-    float *translacao = getTranslacao(og);
     float  raio     = getValoresExtra(og)[0];
     float  reparticoes      = getValoresExtra(og)[1];
-    float x = translacao[0], y = translacao[1], z = translacao[2];
     
     if(ehSolido(og)) glutSolidSphere(raio, reparticoes,reparticoes);
     else glutWireSphere(raio,reparticoes,reparticoes);
-    //glDisable(GL_LIGHTING);
     glPopMatrix(); //Deixa a matriz como ela estava antes
 }
 
@@ -148,7 +143,7 @@ void desenhaTrianguloOg(objetoGrafico* og, float* verts[]){
      if(ehSolido(og)) modoDesenho = GL_TRIANGLES;
      else             modoDesenho = GL_LINE_LOOP;
      float u[3],v[3],norm[3],magnitude;
-     #define vcopy(v1,v2) v1[0]=v2[0]; v1[1]=v2[1]; v1[2] =v2[2]//memcpy(v1,v2,sizeof(v1))
+     #define vcopy(v1,v2) v1[0]=v2[0]; v1[1]=v2[1]; v1[2] =v2[2]
      #define  vdif(v1,v2) for(k=0;k<3;k++) v1[k]=v2[k]-v1[k]
      #define magn(v)      sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2])
      
@@ -160,7 +155,6 @@ void desenhaTrianguloOg(objetoGrafico* og, float* verts[]){
      norm[2] = u[0]*v[1] - u[1]*v[0];
      magnitude = magn(norm);
      for(k=0;k<3;k++) norm[k]/=magnitude;
-
 
      glBegin(modoDesenho);
          glNormal3d(norm[0],norm[1],norm[2]);
@@ -214,7 +208,6 @@ void desenhaRetanguloOg(objetoGrafico* og, float* verts[]){
 }
 
 void desenhaRetangulo(objetoGrafico* og){
-    //printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);
     glPushMatrix(); //Salva a matriz
     aplicaCorTransformacoesPadrao(og);
     float lado         = getValoresExtra(og)[0];
@@ -292,7 +285,7 @@ void desenhaCone(objetoGrafico* og){
     float  reparticoes = getValoresExtra(og)[5];
     GLfloat corMat[]   = {cor[0],cor[1],cor[2],1.f};
     GLfloat corAltMat[]= {corAlt[0],corAlt[1],corAlt[2],1.f};
-    float angle[2], x,y;
+    float angle[2];
     int iPivot=0,i,k;
     float altura[2] = {alturaOrg,0};
     
@@ -302,7 +295,6 @@ void desenhaCone(objetoGrafico* og){
     float vert2[] = {0,0,0};
     float vert3[] = {0,0,0};
     float * verts[3] ={ vert1, vert2, vert3 };
-    #define setVerts(v0,v1,v2) verts[0]=v0; verts[1]=v1; verts[2]=v2
 
     angle[0] = 0;
     do{
@@ -335,13 +327,10 @@ void desenhaCone(objetoGrafico* og){
 void desenhaTorus(objetoGrafico* og){
     glPushMatrix(); //Salva a matriz
     aplicaCorTransformacoesPadrao(og);   
-    float* cor         = getCor(og);
-    float *translacao = getTranslacao(og);
     float  raioInterno     = getValoresExtra(og)[0];
     float  raioExterno     = getValoresExtra(og)[1];
     float  reparticoes      = getValoresExtra(og)[2];
     float  aneis      = getValoresExtra(og)[3];
-    float x = translacao[0], y = translacao[1], z = translacao[2];
     
     if(ehSolido(og)) glutSolidTorus(raioInterno, raioExterno, reparticoes,aneis);
     else glutWireTorus(raioInterno, raioExterno, reparticoes,aneis);
@@ -532,20 +521,16 @@ void inicioAnimacao(objetoGrafico* og){
      int quadros = og->valores[0];
      int incremento = og->valores[1];
      objetoGrafico obVis;
-     og[1].invisivel=og[2].invisivel=1;
+     og[1].invisivel=og[2].invisivel=1; //XXX invasao de memoria, fazer uma checagem do vetor de objetosGraficos antes de chamar essa funcao (e.g. se há dois objetos gráficos logo após uma declaração de animação)!
      memcpy(&obVis,&og[1],sizeof(objetoGrafico));
      obVis.invisivel=0;
      int *quadroAtual =&og[1].quadroAtual; 
      float prog = (*quadroAtual)/(float)quadros;
      (*quadroAtual)+=incremento;
      if(*quadroAtual >= quadros || *quadroAtual <= 0) og->valores[1]*=-1;
-     //printf("%d %f\n",og[1].quadroAtual, prog);
      int i;
      for(i=0;i<numParametros(og[1].tipo);i++){
         obVis.valores[i]=og[1].valores[i]*prog+og[2].valores[i]*(1-prog);
      }
      desenhaObjetoGrafico(&obVis);
-}
-
-void fimAnimacao(objetoGrafico* og){
 }
