@@ -141,7 +141,24 @@ void Teclado (unsigned char key, int x, int y)
          }
     }
 }
-
+void processaMouse (int botao, int estado, int x, int y)
+{
+     if(estado == GLUT_DOWN)
+     {
+           if(botao == GLUT_LEFT_BUTTON)
+           {
+                printf("Clique em: %d %d\n", x, y);
+           }
+           else if(botao == GLUT_MIDDLE_BUTTON)
+           {
+               //middle button code
+           }
+           else if(botao == GLUT_RIGHT_BUTTON)
+           {
+               //right button code
+           }
+     }
+}
 // Programa Principal 
 int main(void)
 {
@@ -164,6 +181,7 @@ int main(void)
 	glutKeyboardFunc (Teclado);
 	Inicializa();
     glutReshapeFunc(reshape);
+    glutMouseFunc(processaMouse);
 	glutMainLoop();
 	
 	free(objetosGraficos);

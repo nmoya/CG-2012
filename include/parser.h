@@ -6,6 +6,101 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void calculaBBox(objetoGrafico *og){
+     float h, l, p;
+     float cx, cy, cz;
+     cx = og->valores[ITRANSLACAO];
+     cy = og->valores[ITRANSLACAO+1];
+     cz = og->valores[ITRANSLACAO+2];
+     switch(og->tipo){
+            case TESFERA:
+                 l = og->valores[NARGSCOMUNS]*2 + OFFSET;
+                 h = l;
+                 p = h;
+                 break; 
+    		case TCUBO:    
+                 l = og->valores[NARGSCOMUNS] + OFFSET ;
+                 h = l;
+                 p = h;
+                 break;
+    		case TTORUS:
+                 l = (og->valores[NARGSCOMUNS]+og->valores[NARGSCOMUNS+1])*1.8 + OFFSET;
+                 h =(og->valores[NARGSCOMUNS]+og->valores[NARGSCOMUNS+1])*1.8 + OFFSET;
+                 p = h;
+                 break;
+    		case TCONE:    
+                 l = og->valores[NARGSCOMUNS+1*NCOR] * 2;
+                 h = l;
+                 p = og->valores[NARGSCOMUNS+1*NCOR+1];
+                 cz = cz + (p / 2);
+                 break;
+      		case TKOMPOSTO:
+                 
+                 break;
+            case TPONTO:     
+    		case TLINHA:      
+    		case TCIRCULO:    
+    		case TQUADRADO:  
+    		case TTRIANGULO:
+            case TILUMINACAO:
+                 printf("Aviso: Nao sao criadas Bouding Box para objetos 2d (tipo=%c,id=%d)\n", og->tipo, og->id);
+                 return;
+    		case TCILINDRO:    
+            case TANIMACAO:    
+                 printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);            
+                 return;
+     }
+     //printf("l:%f h:%f p:%f\n",l,h,p);
+             
+             
+    //Centro
+    og->bbox.centro[0] = cx;
+    og->bbox.centro[1] = cy;
+    og->bbox.centro[2] = cz;
+    
+            //Pontos da frente da BB
+                 
+    //P1
+    og->bbox.pontos[0]   = cx - l/2.0 +OFFSET;
+    og->bbox.pontos[1] = cy + h/2.0 +OFFSET;
+    og->bbox.pontos[2] = cz - p/2.0 +OFFSET;
+    
+    //P2
+    og->bbox.pontos[ 1*3  ] = cx + l/2.0    +OFFSET;
+    og->bbox.pontos[ 1*3+1] = cy + h/2.0  +OFFSET;
+    og->bbox.pontos[ 1*3+2] = cz - p/2    +OFFSET;
+    
+    //P3
+    og->bbox.pontos[ 2*3  ] = cx - l/2.0    +OFFSET;
+    og->bbox.pontos[ 2*3+1] = cy - h/2.0    +OFFSET;
+    og->bbox.pontos[ 2*3+2] = cz - p/2      +OFFSET;
+    
+    //P4
+    og->bbox.pontos[ 3*3  ] = cx + l/2.0      +OFFSET;
+    og->bbox.pontos[ 3*3+1] = cy - h/2.0      +OFFSET;
+    og->bbox.pontos[ 3*3+2] = cz - p/2        +OFFSET;
+    
+    //P5
+    og->bbox.pontos[ 4*3  ] = cx - l/2.0      +OFFSET;
+    og->bbox.pontos[ 4*3+1] = cy + h/2.0      +OFFSET;
+    og->bbox.pontos[ 4*3+2] = cz + p/2        +OFFSET;
+
+    //P6
+    og->bbox.pontos[ 5*3  ] = cx + l/2.0      +OFFSET;
+    og->bbox.pontos[ 5*3+1] = cy + h/2.0      +OFFSET;
+    og->bbox.pontos[ 5*3+2] = cz + p/2        +OFFSET;
+
+    //P7
+    og->bbox.pontos[ 6*3  ] = cx - l/2.0      +OFFSET;
+    og->bbox.pontos[ 6*3+1] = cy - h/2.0      +OFFSET;
+    og->bbox.pontos[ 6*3+2] = cz + p/2        +OFFSET;
+
+    //P8
+    og->bbox.pontos[ 7*3  ] = cx + l/2.0      +OFFSET;
+    og->bbox.pontos[ 7*3+1] = cy - h/2.0      +OFFSET;
+    og->bbox.pontos[ 7*3+2] = cz + p/2        +OFFSET;
+}
+
 static char* readUntil(FILE* arq, char c){
     int i=0;
     #define buffer_len 512
@@ -50,6 +145,9 @@ static objetoGrafico* carregaObjetosGraficos(FILE* arq, int* len){
         for(k=0;k<nParametros;k++){
             readFloat(&og->valores[k]);
         }
+        og->bbox.visivel = VISIBILIDADE;
+        og->bbox.offset = OFFSET;
+        calculaBBox(og);
     }
     
     return vetorObjetos;

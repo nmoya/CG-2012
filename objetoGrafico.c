@@ -40,6 +40,82 @@ void aplicaCorTransformacoesPadrao(objetoGrafico* og){
      glLineWidth(espessura);
 }
 
+void desenhaBBox(objetoGrafico *og)
+{     
+    float x, y, z;
+    float x2,y2,z2;
+    int i;
+    int j;
+    objetoGrafico esfera;
+    float* trans        = getTranslacao(og);
+    
+    //Coloca as esferas
+    if(og->bbox.visivel != 0)
+    {
+                                   
+        for(i = 0; i < NBBPONTOS ; i++)
+        {
+                  x = og->bbox.pontos[i*3];
+                  y = og->bbox.pontos[1+ i*3];
+                  z = og->bbox.pontos[2+ i*3];
+                     
+                  esfera.id = og->id;
+                  esfera.tipo = TESFERA;
+                  esfera.valores[ICOR]            = 0.5;
+                  esfera.valores[ICOR+1]          = 0.5;
+                  esfera.valores[ICOR+2]          = 0.5;
+        
+                  esfera.valores[IESPESSURA]      = 0;
+                  esfera.valores[ITIPOGRAFIA]     = 61680;
+        
+                  esfera.valores[IORIENTACAO]       = 0;
+                  esfera.valores[IORIENTACAO+1]     = 0;
+                  esfera.valores[IORIENTACAO+2]     = 0;
+                  esfera.valores[IORIENTACAO+3]     = 0;
+        
+                  esfera.valores[ITRANSLACAO]       = x;
+                  esfera.valores[ITRANSLACAO+1]     = y;
+                  esfera.valores[ITRANSLACAO+2]     = z;
+        
+                  esfera.valores[IRESTO]            = 2;
+                  esfera.valores[IRESTO+1]          = 4;
+        
+                  glPushMatrix(); //Salva a matriz
+                  
+                  //aplicaCorTransformacoesPadrao(&esfera);
+                  glTranslatef(x - trans[0], y - trans[1], z - trans[2]);
+                 
+                  
+                  float  raio     = getValoresExtra(&esfera)[0];
+                  float  reparticoes      = getValoresExtra(&esfera)[1];
+        
+                  glutSolidSphere(raio,reparticoes,reparticoes);
+                  glPopMatrix(); //Deixa a matriz como ela estava antes
+                  
+        }
+        
+        //Coloca as linhas mágicas
+        for(i = 0 ; i < NBBPONTOS ; i++)
+        {
+              x = og->bbox.pontos[i*3] - trans[0];
+              y = og->bbox.pontos[1+ i*3] - trans[1];
+              z = og->bbox.pontos[2+ i*3] - trans[2];
+              for(j = i; j < NBBPONTOS; j++)
+              {
+                  x2 = og->bbox.pontos[j*3] - trans[0];
+                  y2 = og->bbox.pontos[1+ j*3] - trans[1];
+                  z2 = og->bbox.pontos[2+ j*3] - trans[2];             
+                 glBegin(GL_LINES);
+                 glVertex3f(x,y,z);
+                 glVertex3f(x2,y2,z2);
+                 glEnd();
+                    
+              }
+        }
+    }
+    //glPopMatrix();
+}
+
 //Funcoes de desenho
 void desenhaPonto(objetoGrafico* og){
     glPushMatrix(); //Salva a matriz
@@ -133,7 +209,9 @@ void desenhaEsfera(objetoGrafico* og){
     
     if(ehSolido(og)) glutSolidSphere(raio, reparticoes,reparticoes);
     else glutWireSphere(raio,reparticoes,reparticoes);
+    desenhaBBox(og);
     glPopMatrix(); //Deixa a matriz como ela estava antes
+
 }
 
 
@@ -271,8 +349,9 @@ void desenhaCubo(objetoGrafico* og){
    for(i=0;i<4;i++) vertsInterno[i][2]*=-1;
    inverteFace();  
    desenhaRetanguloOg(og,ponto);
-
-   glPopMatrix(); //Deixa a matriz como ela estava antes  
+   desenhaBBox(og); 
+   glPopMatrix(); //Deixa a matriz como ela estava antes
+ 
 }
 void desenhaCone(objetoGrafico* og){
     glPushMatrix(); //Salva a matriz
@@ -320,8 +399,10 @@ void desenhaCone(objetoGrafico* og){
        }
        angle[0]=angle[1];
     }while(angle[0] < (2.0f*pi));
-
+      
+    desenhaBBox(og);
     glPopMatrix(); //Deixa a matriz como ela estava antes     
+
 }
 
 void desenhaTorus(objetoGrafico* og){
@@ -334,7 +415,9 @@ void desenhaTorus(objetoGrafico* og){
     
     if(ehSolido(og)) glutSolidTorus(raioInterno, raioExterno, reparticoes,aneis);
     else glutWireTorus(raioInterno, raioExterno, reparticoes,aneis);
+    desenhaBBox(og);
     glPopMatrix(); //Deixa a matriz como ela estava antes
+    
 }
 
 void desenhaCilindro(objetoGrafico* og){
@@ -532,5 +615,6 @@ void inicioAnimacao(objetoGrafico* og){
      for(i=0;i<numParametros(og[1].tipo);i++){
         obVis.valores[i]=og[1].valores[i]*prog+og[2].valores[i]*(1-prog);
      }
+     calculaBBox(&obVis);
      desenhaObjetoGrafico(&obVis);
 }

@@ -4,8 +4,11 @@
 #include <stdio.h>
 
 #define MAX_VALORES 50
+#define OFFSET      0
+#define VISIBILIDADE 1
 
 #define NPONTO 3
+
 
 #define TPONTO      'P'
 #define TLINHA      'L'
@@ -39,12 +42,35 @@
 #define ITRANSLACAO (IORIENTACAO+NORIENTACAO)
 #define IRESTO      (ITRANSLACAO+NTRANSLACAO)
 
+
+/*####################
+     Bounding Box 
+######################*/
+#define NBBVISIBILIDADE                      1
+#define NBBOFFSET                            1
+#define NBBPONTOS                            8
+
+#define IBBVISIBILIDADE                      0
+#define IBBOFFSET                            (IBBVISIBILIDADE + NBBVISIBILIDADE)
+#define IBBPONTOS                            (IBBOFFSET + NBBOFFSET)
+#define IBBRESTO                               (IBBPONTOS + NBBPONTOS)
+
+typedef struct
+{
+    float pontos[8 * 3]; //8 pontos com 3 posicoes por ponto (x, y, z)
+    float centro[3];
+    int visivel;
+    float offset;
+} boundingbox;
+
 typedef struct{
     int id;
     char tipo;
     float valores[MAX_VALORES]; // R;G;B;Espessura;Tipografia;Orientacao[4];Translacao[3];p1x;p1y;p1z;p2x;p2y;p3z;...
     int quadroAtual;
     int invisivel;
+    boundingbox bbox;
+    //float bbox[MAX_VALORES]; //Visibilidade; Offset, Pontos (p1,p2,...,p8)
 } objetoGrafico;                //Espessura == 0 -> solido
 
 static float* getCor(objetoGrafico* og)         { return &og->valores[ICOR]; }
@@ -70,6 +96,7 @@ void desenhaKomposto(objetoGrafico* og);
 void configuraIluminacao(objetoGrafico* og);
 void inicioAnimacao(objetoGrafico* og);
 void fimAnimacao(objetoGrafico* og);
+void desenhaBBox(objetoGrafico *og);
 
 static int numParametros(char tipo){
     switch(tipo){ //XXX preencher numero de parametros correto
@@ -79,7 +106,7 @@ static int numParametros(char tipo){
 		case TESFERA:    return NARGSCOMUNS+1+1;  //raio + reparticoes // OKA
 		case TQUADRADO:  return NARGSCOMUNS+1+1; //corAlternativa + largura + altura 
 		case TTRIANGULO: return NARGSCOMUNS+3*NPONTO; //3cor + 1epessura + 1tipografia + 3orientacao + 3translacao + 3xyz // OKA
-		case TCUBO:      return NARGSCOMUNS+1; //INCOMPLETO
+		case TCUBO:      return NARGSCOMUNS+1; //aresta?
 		case TCONE:      return NARGSCOMUNS+1*NCOR+1+1+1;  //+ corAlternativa + raio + altura + reparticoes // INCOMPLETO
 		case TTORUS:     return NARGSCOMUNS+1+1+1+1;  //raioInterno + raioExterno + reparticoes + aneis // OKA
 		case TCILINDRO:  return NARGSCOMUNS+1*NCOR+1+1+1;  //+ corAlternativa + raio + altura + reparticoes INCOMPLETO
