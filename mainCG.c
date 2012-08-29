@@ -12,7 +12,7 @@ GLfloat nRange = 57.0f;  //XXX acredito que o professor tenha dito que essa vari
 int height, width;
 objetoGrafico* objetosGraficos;
 int objetosGraficos_len;
-
+grafo *g;
 void Desenha(void)
 {
     #ifdef DEBUG_SPIN_SPIN
@@ -140,6 +140,11 @@ void Teclado (unsigned char key, int x, int y)
              if(og->id == id) og->invisivel = !og->invisivel;
          }
     }
+    else if (key == 'm')
+    {
+         atualizaGrafo (objetosGraficos, g);
+         imprimeGrafo(g);
+    }
 }
 void processaMouse (int botao, int estado, int x, int y)
 {
@@ -172,8 +177,14 @@ int main(void)
     if(!objetosGraficos){
         getc(stdin); //Pausa para ver o erro antes de sair
         return 1;
-    }
+    }  
+    g = carregaGrafo(objetosGraficos_len); 
+    if(!g){
+        getc(stdin); //Pausa para ver o erro antes de sair
+        return 1;
+    } 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    glutInitWindowSize(800, 600);
 	glutCreateWindow("Visualizador");
 	glutDisplayFunc(Desenha);
 	glutIdleFunc(Desenha);
@@ -185,6 +196,7 @@ int main(void)
 	glutMainLoop();
 	
 	free(objetosGraficos);
+	desalocaGrafo(g);
 	return 0;
 }
 

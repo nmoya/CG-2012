@@ -553,6 +553,9 @@ void desenhaKomposto(objetoGrafico *og){
     esfera.valores[IRESTO]            = raioE;
     esfera.valores[IRESTO+1]          = reparticoesE;
     
+    esfera.bbox.offset = og->bbox.offset;
+    esfera.bbox.visivel = og->bbox.visivel;
+    calculaBBox(&esfera);
     desenhaEsfera(&esfera);
     
     //Monta Cone
@@ -582,6 +585,9 @@ void desenhaKomposto(objetoGrafico *og){
     cone.valores[IRESTO+4]          = alturaC;
     cone.valores[IRESTO+5]          = reparticoesC;
     
+    cone.bbox.offset = og->bbox.offset;
+    cone.bbox.visivel = og->bbox.visivel;
+    calculaBBox(&cone);
     desenhaCone(&cone);
     
 }

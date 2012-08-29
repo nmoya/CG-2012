@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "objetoGrafico.h"
+#include "grafo.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,7 +35,6 @@ void calculaBBox(objetoGrafico *og){
                  cz = cz + (p / 2);
                  break;
       		case TKOMPOSTO:
-                 
                  break;
             case TPONTO:     
     		case TLINHA:      
@@ -44,9 +43,15 @@ void calculaBBox(objetoGrafico *og){
     		case TTRIANGULO:
             case TILUMINACAO:
                  printf("Aviso: Nao sao criadas Bouding Box para objetos 2d (tipo=%c,id=%d)\n", og->tipo, og->id);
+                 og->bbox.centro[0] = cx;
+                 og->bbox.centro[1] = cy;
+                 og->bbox.centro[2] = cz;
                  return;
     		case TCILINDRO:    
-            case TANIMACAO:    
+            case TANIMACAO:
+                 og->bbox.centro[0] = 0;
+                 og->bbox.centro[1] = 0;
+                 og->bbox.centro[2] = 0;    
                  printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);            
                  return;
      }

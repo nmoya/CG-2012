@@ -1,0 +1,142 @@
+19 #numero de objetos
+
+0;M; #Configuracoes de iluminacao
+    0.2;0.2;0.2;1.0; #cor da luz ambiente
+    1.0;1.0;1.0;1.0; #cor da luz
+    4;-30;8;1;       #posicao da luz
+
+#Abra o cogio pelo visualizador.dev para ter os Linkers funcionando.
+#Comandos:
+#W - Rotaciona para cima
+#S - Rotaciona para baixo
+#A - Esquerda
+#D - Direita
+#Z - Zoom in
+#X - Zoom out
+#A especificação de cada objeto está comentada abaixo. Mudar a primeira linha para o numero de objetos que vao ser desenhados.
+
+1;P;
+	0.5;1;1; #r; g; b;
+	25000;11;13; #translacao
+
+2;T; #Um triangulo
+	1;0;0;    #r;g;b;
+	0; 0;     #espessura; tipografia;
+	45;1;0;0; #orientacao[4];
+	-2000;10;10;#translacao[3];
+	-5;-5;0; 5;-5;0; 0;5;0; #vertices
+
+3;T; #Um triangulo
+	0;1;0;    #r;g;b;
+	1; 65535; #espessura; tipografia;
+	45;0;1;0; #orientacao[4];
+	-2000;0;0;    #translacao[3];
+	-5;-5;0; 5;-5;0; 0;5;0; #vertices
+	#10;10;10; 20;10;10; 15;20;10; #vertices
+
+4;T; #Um triangulo
+	1;1;0;    #r;g;b;
+	1; 61680; #espessura; tipografia;
+	45;0;0;1; #orientacao[4];
+	-2000;-10;-10;#translacao[3];
+	-5;-5;0; 5;-5;0; 0;5;0; #vertices
+	#10;10;10; 20;10;10; 15;20;10; #vertices
+
+5;L; #Uma linha
+	1;1;1;    #r;g;b;
+	1; 61680; #espessura; tipografia;
+	0;1;0;0;  #orientacao[4];
+	0;0;0;    #translacao[3];
+	-100;0;0; 100;0;0; #vertices
+
+6;L; #Uma linha
+	1;1;1;    #r;g;b;
+	1; 61680; #espessura; tipografia;
+	0;1;0;0;  #orientacao[4];
+	-2000;0;0;    #translacao[3];
+	0;-100;0; 0;100;0; #vertices
+
+7;E; #Uma esfera, estado inicial
+    0.1;0.5;1;    #r;g;b;
+    1; 61680;     #espessura; tipografia;
+    0;45;0;0;      #orientacao[4];
+    0;0;0;        #translacao[3];
+    10;20;         #raio;reparticoes
+
+8;Q; #Um retangulo
+	0.8;0.4;0;    #r;g;b;
+	0; 61680;     #espessura; tipografia;
+	0;1;0;0;      #orientacao[4];
+	20;10;-10;   #translacao[3];
+	20; 25;       #lado; altura;
+
+9;S; #Um Torus
+	0.8;0.4;0;    #r;g;b;
+	0; 61680;     #espessura; tipografia;
+	90;1;0;0;      #orientacao[4];
+	0;10;-10;   #translacao[3];
+	4; 10;         #raioInterno; raioExterno;
+	50; 10;        #particoes; aneis
+
+10;U; #Um Cubo
+	0.8;0.4;0;    #r;g;b;
+	0; 61680;     #espessura; tipografia;
+	45;1;0;1;      #orientacao[4];
+	10;10;10;   #translacao[3];
+	10;            #aresta;
+
+11;A; #Animacao!
+    90;1;           #tamanho da animacao (quadros);incremento (1,0,-1)
+        12;E; #Uma esfera, estado inicial
+        	0.1;0.5;1;    #r;g;b;
+        	0; 61680;     #espessura; tipografia;
+        	0;1;0;0;      #orientacao[4];
+        	-15;10;-20;   #translacao[3];
+        	2;20;         #raio;reparticoes
+        	
+        12;E; #Uma esfera, estado final
+        	0.1;1;0.5;    #r;g;b;
+        	0; 61680;     #espessura; tipografia;
+        	0;1;0;0;      #orientacao[4];
+        	15;-10;10;    #translacao[3];
+        	10;20;        #raio;reparticoes
+        	
+14;O; #Um cone
+	0.8;0.4;0;    #r;g;b;
+	0; 61680;     #espessura; tipografia;
+	90;1;0.0;0.0; #orientacao[4];
+	6000;0;0;    #translacao[3];
+	0.8;0.8;0;    #cor alternativa
+	10; 50;       #raio; altura
+	15;            #reparticoes
+        	
+13;A; #Outra animacao!
+      720;1;
+        14;O; #Um cone
+        	0.8;0.4;0;    #r;g;b;
+        	0; 61680;     #espessura; tipografia;
+        	0;0.5;0.5;0; #orientacao[4];
+        	-20;-10;0;    #translacao[3];
+        	0.8;0.8;0;    #cor alternativa
+        	10; 50;       #raio; altura
+        	3;            #reparticoes
+        	
+        14;O; #Um cone
+        	0.8;0.4;0;    #r;g;b;
+        	0; 61680;     #espessura; tipografia;
+        	720;0.5;0.5;0.0; #orientacao[4];
+        	-30;-10;0;    #translacao[3];
+        	0.8;0.8;0;    #cor alternativa
+        	10; 50;       #raio; altura
+        	15;            #reparticoes
+
+15;K; #Sorvete
+        	0.1;1;0.5;    #r;g;b;
+        	0; 61680;     #espessura; tipografia;
+        	45;1;0;0;      #orientacao[4];
+        	5;-10;10;    #translacao[3];
+        	10;20;        #raio;reparticoes
+            0.8;0.4;0;    #r;g;b;   
+        	10; 50;       #raio; altura
+        	15;            #reparticoes
+
