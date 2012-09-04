@@ -15,10 +15,12 @@ grafo* carregaGrafo(int nElementos)
      g->nElementos = nElementos;
      g->deslocamento = (float***) malloc(nElementos*sizeof(float**));
      g->posicionamento = (int***) malloc(nElementos*sizeof(int**));
+     g->distancia = (float**) malloc(nElementos*sizeof(float*));
      for(i = 0; i < nElementos ; i++)
      {
              g->deslocamento[i] = (float**) malloc(nElementos*sizeof(float*));
              g->posicionamento[i] = (int**) malloc(nElementos*sizeof(int*));
+             g->distancia[i] = (float*) malloc(nElementos*sizeof(float));
              for(j = 0 ; j < nElementos; j++)
              {
                    g->deslocamento[i][j] = (float*) malloc (3 *sizeof(float));
@@ -92,14 +94,12 @@ void desalocaGrafo(grafo *g)
          }
          free(g->deslocamento[i]);
          free(g->posicionamento[i]);
+         free(g->distancia[i]);
       }
       free(g->deslocamento);
       free(g->posicionamento);
+      free(g->distancia);
       free(g);
-}
-
-void calculaAngulos(grafo *g, objetoGrafico *og1, objetoGrafico *og2)
-{
 }
 
 void imprimeGrafo(grafo *g)

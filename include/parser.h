@@ -11,7 +11,7 @@ void calculaBBox(objetoGrafico *og){
      float cx, cy, cz;
      cx = og->valores[ITRANSLACAO];
      cy = og->valores[ITRANSLACAO+1];
-     cz = og->valores[ITRANSLACAO+2];
+     cz = og->valores[ITRANSLACAO+2];     
      switch(og->tipo){
             case TESFERA:
                  l = og->valores[NARGSCOMUNS]*2 + OFFSET;
@@ -46,6 +46,9 @@ void calculaBBox(objetoGrafico *og){
                  og->bbox.centro[0] = cx;
                  og->bbox.centro[1] = cy;
                  og->bbox.centro[2] = cz;
+                 og->bbox.l = 0;
+                 og->bbox.h = 0;
+                 og->bbox.p = 0;  
                  return;
     		case TCILINDRO:    
             case TANIMACAO:
@@ -56,8 +59,9 @@ void calculaBBox(objetoGrafico *og){
                  return;
      }
      //printf("l:%f h:%f p:%f\n",l,h,p);
-             
-             
+     og->bbox.l = l;
+     og->bbox.h = h;
+     og->bbox.p = p;        
     //Centro
     og->bbox.centro[0] = cx;
     og->bbox.centro[1] = cy;

@@ -15,23 +15,23 @@
 #X - Zoom out
 #A especificação de cada objeto está comentada abaixo. Mudar a primeira linha para o numero de objetos que vao ser desenhados.
 
-10;U; #Um Chao
+1;U; #Um Chao
 	0.8;0.4;0;    #r;g;b;
 	1; 61680;     #espessura; tipografia;
 	90;1;0;0;        #orientacao[4];
 	0;-50;0;          #translacao[3];  #Quanto mais 'para trás', menor o Z.
 	100;            #aresta;
 	
-7;E; #Uma esfera, estado inicial
+2;E; #Uma esfera, estado inicial
     0.1;0.5;1;    #r;g;b;
     0; 61680;     #espessura; tipografia;
     0;45;0;0;      #orientacao[4];
     0;10;0;        #translacao[3];
     10;20;         #raio;reparticoes
 
-10;U; #Um Cubo
+3;U; #Um Cubo
 	0.8;0.4;0;    #r;g;b;
 	0; 61680;     #espessura; tipografia;
 	0;0;0;0;      #orientacao[4];
-	25;5;-10;   #translacao[3];  #Quanto mais 'para trás', menor o Z.
+	0;20;0;   #translacao[3];  #Quanto mais 'para trás', menor o Z.
 	10;            #aresta;

@@ -624,3 +624,38 @@ void inicioAnimacao(objetoGrafico* og){
      calculaBBox(&obVis);
      desenhaObjetoGrafico(&obVis);
 }
+
+int calculaColisao(objetoGrafico *og1, objetoGrafico *og2)
+{
+     float distancia;
+     float distx, disty, distz;
+     distx = (og1->bbox.centro[0] - og2->bbox.centro[0]);
+     disty = (og1->bbox.centro[1] - og2->bbox.centro[1]);
+     distz = (og1->bbox.centro[2] - og2->bbox.centro[2]);
+     distancia = sqrt(distx*distx + disty*disty + distz*distz);
+     
+     printf("Distancia entre %d e %d : %f\n",og1->id,og2->id,distancia);
+     if(distancia <= og1->bbox.l || distancia <= og1->bbox.h || distancia  <= og1->bbox.p)
+     {
+                  printf("Em colisao\n");
+                  return 1;
+     }
+     else if(distancia <= og2->bbox.l || distancia <= og2->bbox.h || distancia  <= og2->bbox.p)
+     {
+                  printf("Em colisao\n");
+                  return 1;
+     }
+     return 0; 
+}
+
+void verificaColisao(objetoGrafico *objetosGraficos, int nObjetos)
+{
+     int i, j;
+     for (i = 0; i < nObjetos ; i++)
+     {
+         for(j = i+1; j < nObjetos ; j++)
+         {
+               calculaColisao(&objetosGraficos[i],&objetosGraficos[j]);
+         }
+     }     
+}

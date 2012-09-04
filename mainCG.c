@@ -145,6 +145,10 @@ void Teclado (unsigned char key, int x, int y)
          atualizaGrafo (objetosGraficos, g);
          imprimeGrafo(g);
     }
+    else if (key == 'c')
+    {
+         verificaColisao(objetosGraficos,objetosGraficos_len);
+    }
 }
 void processaMouse (int botao, int estado, int x, int y)
 {

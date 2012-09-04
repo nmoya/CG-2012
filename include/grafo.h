@@ -14,6 +14,7 @@ typedef struct
         int nElementos;
         float ***deslocamento;
         int ***posicionamento;
+        float **distancia;
         float incx, incy, incz;
 } grafo;
 

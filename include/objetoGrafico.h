@@ -61,6 +61,7 @@ typedef struct
     float centro[3];
     int visivel;
     float offset;
+    float l, h, p;
 } boundingbox;
 
 typedef struct{
@@ -97,6 +98,9 @@ void configuraIluminacao(objetoGrafico* og);
 void inicioAnimacao(objetoGrafico* og);
 void fimAnimacao(objetoGrafico* og);
 void desenhaBBox(objetoGrafico *og);
+
+int calculaColisao(objetoGrafico *og1, objetoGrafico *og2);
+void verificaColisao(objetoGrafico *objetosGraficos, int nObjetos);
 
 static int numParametros(char tipo){
     switch(tipo){ //XXX preencher numero de parametros correto
