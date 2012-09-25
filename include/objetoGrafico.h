@@ -2,6 +2,7 @@
 #define OBJETOGRAFICO_H
 
 #include <stdio.h>
+#include "objetoFisico.h"
 
 #define MAX_VALORES 50
 #define OFFSET      0
@@ -23,6 +24,7 @@
 #define TKOMPOSTO   'K'
 #define TILUMINACAO 'M'
 #define TANIMACAO   'A'
+#define TCHAO       'V'
 
 // Numero de argumentos padrao
 #define NCOR        3
@@ -53,7 +55,7 @@
 #define IBBVISIBILIDADE                      0
 #define IBBOFFSET                            (IBBVISIBILIDADE + NBBVISIBILIDADE)
 #define IBBPONTOS                            (IBBOFFSET + NBBOFFSET)
-#define IBBRESTO                               (IBBPONTOS + NBBPONTOS)
+#define IBBRESTO                             (IBBPONTOS + NBBPONTOS)
 
 typedef struct
 {
@@ -62,7 +64,7 @@ typedef struct
     int visivel;
     float offset;
     float l, h, p;
-} boundingbox;
+} boundingbox; 
 
 typedef struct{
     int id;
@@ -70,7 +72,9 @@ typedef struct{
     float valores[MAX_VALORES]; // R;G;B;Espessura;Tipografia;Orientacao[4];Translacao[3];p1x;p1y;p1z;p2x;p2y;p3z;...
     int quadroAtual;
     int invisivel;
+    int noChao;
     boundingbox bbox;
+    objetoFisico objFisico;
     //float bbox[MAX_VALORES]; //Visibilidade; Offset, Pontos (p1,p2,...,p8)
 } objetoGrafico;                //Espessura == 0 -> solido
 
@@ -98,9 +102,10 @@ void configuraIluminacao(objetoGrafico* og);
 void inicioAnimacao(objetoGrafico* og);
 void fimAnimacao(objetoGrafico* og);
 void desenhaBBox(objetoGrafico *og);
+void desenhaChao(objetoGrafico *og);
 
-int calculaColisao(objetoGrafico *og1, objetoGrafico *og2);
-void verificaColisao(objetoGrafico *objetosGraficos, int nObjetos);
+int calculaColisao(objetoGrafico *og1, objetoGrafico *og2, int debug);
+void verificaColisao(objetoGrafico *objetosGraficos, int nObjetos, int debug);
 
 static int numParametros(char tipo){
     switch(tipo){ //XXX preencher numero de parametros correto
@@ -117,7 +122,8 @@ static int numParametros(char tipo){
 		case TKOMPOSTO:  return NARGSCOMUNS+1+1 +  /* Esfera do pirulito =)*/  
                          1*NCOR+1+1+1; // Cilindro do pirulito =)
         case TILUMINACAO:return NILUMINACAO;
-        case TANIMACAO:return 2;
+        case TANIMACAO:  return 2;
+        case TCHAO:      return NARGSCOMUNS + 1 + 1 ; // Argumentos comuns - translacao (o chao nao rotaciona) + largura + altura 
         default: return -1;
     }
 }
@@ -138,6 +144,7 @@ static void desenhaObjetoGrafico(objetoGrafico* og){
 		case TKOMPOSTO:  return desenhaKomposto(og);
 		case TILUMINACAO:return configuraIluminacao(og);
         case TANIMACAO:  return inicioAnimacao(og);
+        case TCHAO:      return desenhaChao(og);
     }
     printf("ERRO: Tipo nao implementado(tipo=%c,id=%d)\n", og->tipo, og->id);
 }

@@ -1,3 +1,4 @@
+#include "include/fisica.h"
 #include "include/objetoGrafico.h"
 #include "include/parser.h"
 
@@ -21,7 +22,13 @@ void Desenha(void)
     
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	int i;
+	verificaColisao(objetosGraficos, objetosGraficos_len, 0);
 	for(i=0; i<objetosGraficos_len; i++){
+        aplicaAceleracao(&objetosGraficos[i]);
+        moveObjeto(&objetosGraficos[i]);
+//        colidePlano (&objetosGraficos[i]);
+        calculaBBox(&objetosGraficos[i]);
+        
         desenhaObjetoGrafico(&objetosGraficos[i]);
     }
 	glFlush();
@@ -66,7 +73,7 @@ void Inicializa (void)
 }
 
 void reshape(int w, int h)
-{
+{    
      height = h;
      width = w;
  // glMatrixMode(GL_PROJECTION);  /* Start modifying the projection matrix. */
@@ -78,10 +85,13 @@ void reshape(int w, int h)
 	// Reset coordinate system
 	glLoadIdentity();
 	// Establish clipping volume (left, right, bottom, top, near, far)
+	
     if (w <= h) 
-		glOrtho (-nRange, nRange, -nRange*h/w, nRange*h/w, -nRange, nRange);
+          glOrtho (-nRange, nRange, -nRange*h/w, nRange*h/w, -nRange, nRange);
+		//glOrtho (-nRange, nRange, -nRange*h/w, nRange*h/w, -nRange, nRange);
     else 
-		glOrtho (-nRange*w/h, nRange*w/h, -nRange, nRange, -nRange, nRange);
+         glOrtho (-nRange*w/h, nRange*w/h, -nRange, nRange, -nRange, nRange);
+		//glOrtho (-nRange*w/h, nRange*w/h, -nRange, nRange, -nRange, nRange);
 }
 // Função callback chamada para gerenciar eventos de teclas
 void Teclado (unsigned char key, int x, int y)
@@ -114,12 +124,12 @@ void Teclado (unsigned char key, int x, int y)
     }
     else if (key == 'z')     //Zoom In
     {
-         nRange+=INCREMENTO_TECLADO*2;
+         nRange-=INCREMENTO_TECLADO*2;
          reshape(width, height);
     }
     else if (key == 'x')     //Zoom 'Out'
     {
-         nRange-=INCREMENTO_TECLADO*2;
+         nRange+=INCREMENTO_TECLADO*2;
          reshape(width, height);
     }
     else if (key == 'i') //Modo wireframe
@@ -147,7 +157,7 @@ void Teclado (unsigned char key, int x, int y)
     }
     else if (key == 'c')
     {
-         verificaColisao(objetosGraficos,objetosGraficos_len);
+         verificaColisao(objetosGraficos,objetosGraficos_len, 1);
     }
 }
 void processaMouse (int botao, int estado, int x, int y)
@@ -187,7 +197,16 @@ int main(void)
         getc(stdin); //Pausa para ver o erro antes de sair
         return 1;
     } 
+    vetForca fGravidade;
+    fGravidade.angx = fGravidade.angz = PI / 2; //90
+    fGravidade.angy = PI; //180
+    fGravidade.aceleracao = GRAVIDADE;
+    fGravidade.velocidade = -6;
+    
+    addForcas(objetosGraficos, objetosGraficos_len, fGravidade, "VM");
+    
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	nRange = 300;
     glutInitWindowSize(800, 600);
 	glutCreateWindow("Visualizador");
 	glutDisplayFunc(Desenha);

@@ -36,13 +36,20 @@ void calculaBBox(objetoGrafico *og){
                  break;
       		case TKOMPOSTO:
                  break;
+            case TCHAO:
+                 l = og->valores[IRESTO];
+                 h = 1;
+                 p = og->valores[IRESTO+1];      
+                 break;
+                 
+                 
             case TPONTO:     
     		case TLINHA:      
     		case TCIRCULO:    
     		case TQUADRADO:  
     		case TTRIANGULO:
             case TILUMINACAO:
-                 printf("Aviso: Nao sao criadas Bouding Box para objetos 2d (tipo=%c,id=%d)\n", og->tipo, og->id);
+                 //printf("Aviso: Nao sao criadas Bouding Box para objetos 2d (tipo=%c,id=%d)\n", og->tipo, og->id);
                  og->bbox.centro[0] = cx;
                  og->bbox.centro[1] = cy;
                  og->bbox.centro[2] = cz;
@@ -156,6 +163,9 @@ static objetoGrafico* carregaObjetosGraficos(FILE* arq, int* len){
         }
         og->bbox.visivel = VISIBILIDADE;
         og->bbox.offset = OFFSET;
+        og->noChao = 0;
+        og->objFisico.lenAngsForc = 0;
+        og->objFisico.angsForc = NULL;
         calculaBBox(og);
     }
     

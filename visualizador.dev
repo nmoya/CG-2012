@@ -1,7 +1,7 @@
 [Project]
 FileName=visualizador.dev
 Name=Visualizador OpenGL
-UnitCount=7
+UnitCount=10
 Type=1
 Ver=1
 ObjFiles=
@@ -110,6 +110,36 @@ BuildCmd=
 FileName=grafo.c
 CompileCpp=0
 Folder=Visualizador OpenGL
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit8]
+FileName=include\fisica.h
+CompileCpp=0
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit9]
+FileName=fisica.c
+CompileCpp=0
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit10]
+FileName=include\objetoFisico.h
+CompileCpp=0
+Folder=
 Compile=1
 Link=1
 Priority=1000

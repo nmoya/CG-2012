@@ -285,12 +285,22 @@ void desenhaRetanguloOg(objetoGrafico* og, float* verts[]){
      }
 }
 
+void desenhaChao(objetoGrafico *og)
+{
+     float* ori = getOrientacao(og);
+     ori[0] = 90;
+     ori[1] = 1;
+     ori[2] = 0;
+     ori[3] = 0;
+     desenhaRetangulo(og);
+}
+
 void desenhaRetangulo(objetoGrafico* og){
     glPushMatrix(); //Salva a matriz
     aplicaCorTransformacoesPadrao(og);
     float lado         = getValoresExtra(og)[0];
     float altura       = getValoresExtra(og)[1];
-    float vertsInterno[4][3] ={
+    float vertsInterno[4][3] = {
           {-lado/2,-altura/2,0},
           {lado/2,-altura/2,0},
           {-lado/2,altura/2,0},
@@ -625,37 +635,135 @@ void inicioAnimacao(objetoGrafico* og){
      desenhaObjetoGrafico(&obVis);
 }
 
-int calculaColisao(objetoGrafico *og1, objetoGrafico *og2)
+int calculaColisao(objetoGrafico *og1, objetoGrafico *og2, int debug)
 {
+     int pos;
      float distancia;
      float distx, disty, distz;
      distx = (og1->bbox.centro[0] - og2->bbox.centro[0]);
-     disty = (og1->bbox.centro[1] - og2->bbox.centro[1]);
+     disty = (og1->bbox.centro[1] - og2->bbox.centro[1]); //importante para o chao
      distz = (og1->bbox.centro[2] - og2->bbox.centro[2]);
-     distancia = sqrt(distx*distx + disty*disty + distz*distz);
      
-     printf("Distancia entre %d e %d : %f\n",og1->id,og2->id,distancia);
+     if(og1->tipo == TCHAO)
+     {      
+          if(disty < 0) disty *= -1;
+          if(debug) printf("Distancia entre %d e %d : %f\n",og1->id,og2->id,disty);
+          if (
+                  ( disty <= og2->bbox.h / 2.0)
+          )
+          {
+                  if(debug) printf("Em colisao\n");
+                  else
+                  {
+                      og2->noChao = 1;
+                      for(pos = 0; pos < og2->objFisico.lenAngsForc; pos++)
+                      {
+                              og2->objFisico.angsForc[pos].aceleracao = 0;
+                              og2->objFisico.angsForc[pos].velocidade = 0;
+                      }
+                  }
+                  return 1;
+          }
+          return 0;
+     }
+     else if(og2->tipo == TCHAO)
+     {      
+          if(disty < 0) disty *= -1;
+          if(debug) printf("Distancia entre %d e %d : %f\n",og1->id,og2->id,disty);
+          if (
+                  ( disty <= og1->bbox.h / 2.0)
+          )
+          {
+                  if(debug) printf("Em colisao\n");
+                  else
+                  {
+                      og1->noChao = 1;
+                      for(pos = 0; pos < og1->objFisico.lenAngsForc; pos++)
+                      {
+                              og1->objFisico.angsForc[pos].aceleracao = 0;
+                              og1->objFisico.angsForc[pos].velocidade = 0;
+                      }
+                  }
+                  return 1;
+          }
+          return 0;
+     }
+     
+     
+     
+     
+     
+     distancia = sqrt(distx*distx + disty*disty + distz*distz); //euclidiana
+     
+     if(debug) printf("Distancia entre %d e %d : %f\n",og1->id,og2->id,distancia);
      if(distancia <= og1->bbox.l || distancia <= og1->bbox.h || distancia  <= og1->bbox.p)
      {
-                  printf("Em colisao\n");
-                  return 1;
+          if(debug) printf("Em colisao\n");
+          else
+          {
+              if(og1->noChao && !og2->noChao)
+              {
+                  og2->noChao = 1;
+                  for(pos = 0; pos < og2->objFisico.lenAngsForc; pos++)
+                  {
+                          og2->objFisico.angsForc[pos].aceleracao = 0;
+                          og2->objFisico.angsForc[pos].velocidade = 0;
+                  }      
+              }
+              else if(og2->noChao && !og1->noChao)
+              {
+                  og1->noChao = 1;
+                  for(pos = 0; pos < og1->objFisico.lenAngsForc; pos++)
+                  {
+                          og1->objFisico.angsForc[pos].aceleracao = 0;
+                          og1->objFisico.angsForc[pos].velocidade = 0;
+                  }
+              }
+          }
+          return 1;
      }
      else if(distancia <= og2->bbox.l || distancia <= og2->bbox.h || distancia  <= og2->bbox.p)
      {
-                  printf("Em colisao\n");
-                  return 1;
+          if(debug) printf("Em colisao\n");
+          else
+          {
+              if(og1->noChao && !og2->noChao)
+              {
+                  og2->noChao = 1;
+                  for(pos = 0; pos < og2->objFisico.lenAngsForc; pos++)
+                  {
+                          og2->objFisico.angsForc[pos].aceleracao = 0;
+                          og2->objFisico.angsForc[pos].velocidade = 0;
+                  }     
+              }
+              else if(og2->noChao && !og1->noChao)
+              {
+                  og1->noChao = 1;
+                  for(pos = 0; pos < og1->objFisico.lenAngsForc; pos++)
+                  {
+                          og1->objFisico.angsForc[pos].aceleracao = 0;
+                          og1->objFisico.angsForc[pos].velocidade = 0;
+                  }
+              }
+          }
+          return 1;
      }
      return 0; 
 }
 
-void verificaColisao(objetoGrafico *objetosGraficos, int nObjetos)
+void verificaColisao(objetoGrafico *objetosGraficos, int nObjetos, int debug)
 {
      int i, j;
-     for (i = 0; i < nObjetos ; i++)
+     //int **retorno = (int **)malloc(nObjetos * sizeof(int*));
+     for (i = 0; i < nObjetos - 1; i++)
      {
+         //retorno[i] = (int *)malloc(nObjetos * sizeof(int));
+         //retorno[i][i] = 0;
          for(j = i+1; j < nObjetos ; j++)
          {
-               calculaColisao(&objetosGraficos[i],&objetosGraficos[j]);
+               //retorno[i][j] = 
+               calculaColisao(&objetosGraficos[i],&objetosGraficos[j], debug);
          }
      }     
+     //return retorno;
 }

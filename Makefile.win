@@ -5,11 +5,11 @@ CPP  = g++.exe
 CC   = gcc.exe
 WINDRES = windres.exe
 RES  = 
-OBJ  = mainCG.o objetoGrafico.o grafo.o $(RES)
-LINKOBJ  = mainCG.o objetoGrafico.o grafo.o $(RES)
-LIBS =  -L"C:/Program Files/Dev-Cpp/lib" -L"C:/Dev-Cpp/lib" -lopengl32 -lglut32 -lglu32  
-INCS =  -I"C:/Program Files/Dev-Cpp/include"  -I"." 
-CXXINCS =  -I"C:/Program Files/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Program Files/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Program Files/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Program Files/Dev-Cpp/include/c++/3.4.2"  -I"C:/Program Files/Dev-Cpp/include"  -I"." 
+OBJ  = mainCG.o objetoGrafico.o grafo.o fisica.o $(RES)
+LINKOBJ  = mainCG.o objetoGrafico.o grafo.o fisica.o $(RES)
+LIBS =  -L"E:/Dev-Cpp/lib" -L"C:/Dev-Cpp/lib" -lopengl32 -lglut32 -lglu32  
+INCS =  -I"E:/Dev-Cpp/include"  -I"." 
+CXXINCS =  -I"E:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"E:/Dev-Cpp/include/c++/3.4.2/backward"  -I"E:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"E:/Dev-Cpp/include/c++/3.4.2"  -I"E:/Dev-Cpp/include"  -I"." 
 BIN  = visualizador.exe
 CXXFLAGS = $(CXXINCS)  
 CFLAGS = $(INCS)  
@@ -34,3 +34,6 @@ objetoGrafico.o: objetoGrafico.c
 
 grafo.o: grafo.c
 	$(CC) -c grafo.c -o grafo.o $(CFLAGS)
+
+fisica.o: fisica.c
+	$(CC) -c fisica.c -o fisica.o $(CFLAGS)
